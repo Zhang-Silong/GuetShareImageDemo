@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/attention_top_user_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:layout_margin="10dp"
+        android:src="@drawable/test_img"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+    <TextView
+        android:id="@+id/attention_top_user_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="Bro."
+        android:textColor="#707070"
+        android:layout_below="@id/attention_top_user_image"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

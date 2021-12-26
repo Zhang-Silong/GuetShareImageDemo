@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.UserDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/user_details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:text="个人中心"
+            android:textColor="#616161"
+            android:textSize="18sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/user_detail_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/user_details_toolbar"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/test_img"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="20dp"
+        app:shapeAppearanceOverlay="@style/circleImageStyle"/>
+
+    <RelativeLayout
+        android:id="@+id/rv_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_detail_image"
+        android:layout_marginTop="60dp">
+
+        <LinearLayout
+            android:id="@+id/lv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昵称"
+                android:textColor="#262626"
+                android:layout_marginStart="16dp"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Android"
+                android:textColor="#707070"
+                android:layout_marginStart="90dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_name"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/lv_name"
+            android:background="#A8A2A2"
+            android:layout_margin="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/lv_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_name"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别"
+                android:textColor="#262626"
+                android:layout_marginStart="16dp"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"
+                android:textColor="#707070"
+                android:layout_marginStart="90dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_gender"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/lv_gender"
+            android:background="#A8A2A2"
+            android:layout_margin="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/lv_self_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_gender"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人介绍"
+                android:textColor="#262626"
+                android:layout_marginStart="16dp"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="这个人很懒，什么都没留下。"
+                android:textColor="#707070"
+                android:layout_marginStart="70dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/lv_self_introduction"
+            android:background="#A8A2A2"
+            android:layout_margin="16dp"/>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/quit_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="32dp"
+        android:text="退出登录"
+        android:layout_below="@id/rv_info"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@drawable/shape_button_bg" />
+
+</RelativeLayout>

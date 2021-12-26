@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/login_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/user_center_image">
+
+        <TextView
+            android:id="@+id/tips_sign_in"
+            android:layout_width="130dp"
+            android:layout_height="34dp"
+            android:text="SIGN IN"
+            android:typeface="monospace"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/register_tips"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:text="还没有账号？点此注册"
+            android:textSize="12sp"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/tips_sign_in"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_top_bg">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@style/inputStyle"
+            android:layout_marginTop="82dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_login_account"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="24dp"
+                android:background="@drawable/shape_input"
+                android:padding="10dp"
+                android:textCursorDrawable="@color/black"
+                android:hint="请输入账号"/>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account"
+            android:layout_marginTop="15dp"
+            app:hintTextAppearance="@style/inputStyle"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="24dp"
+                android:background="@drawable/shape_input"
+                android:drawableEnd="@drawable/ic_baseline_visibility_24"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textCursorDrawable="@color/black" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/remember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_bg">
+
+        <CheckBox
+            android:id="@+id/select"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@id/select"
+            android:text="记住密码"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#333333"/>
+
+        <TextView
+            android:id="@+id/find_password"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginEnd="24dp"
+            android:layout_alignParentEnd="true"
+            android:text="忘记密码？"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#707070"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/remember">
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="32dp"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/shape_button_bg" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

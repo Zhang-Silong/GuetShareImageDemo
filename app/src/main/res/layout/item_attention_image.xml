@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/attention_image"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:layout_margin="10dp"
+            android:src="@drawable/test_img"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+        <TextView
+            android:id="@+id/attention_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/attention_image"
+            android:text="揭秘——俏皮小熊猫的正面真相"
+            android:textSize="15sp"
+            android:textColor="#333333"
+            android:layout_margin="10dp"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/attention_user_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:layout_margin="10dp"
+            android:layout_below="@id/attention_msg"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/test_img"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+        <TextView
+            android:id="@+id/attention_user_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bro."
+            android:layout_below="@id/attention_msg"
+            android:layout_margin="10dp"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:layout_toEndOf="@id/attention_user_image"/>
+
+        <ImageView
+            android:id="@+id/attention_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/attention_msg"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/user_like"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dp"/>
+
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

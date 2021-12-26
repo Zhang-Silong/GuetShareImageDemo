@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="900dp"
+    android:height="900dp"
+    android:viewportWidth="900"
+    android:viewportHeight="900">
+
+    <path
+        android:name="矩形_180"
+        android:fillAlpha="0.41"
+        android:strokeAlpha="0.41"
+        android:strokeWidth="1"
+        android:pathData="M0,0 L900,0 L900,899.952 L0,899.952 L0,0 Z" />
+    <path
+        android:name="路径_81"
+        android:fillColor="#444"
+        android:pathData="M477.138,97.2 L143.223,390.925 A69.89,69.89,0,0,0,119.467,443.408 L119.467,907.708 A70.079,70.079,0,0,0,189.647,977.685 L856.353,977.685 A70.079,70.079,0,0,0,926.533,907.708 L926.533,443.356 A69.886,69.886,0,0,0,902.87,390.965 L570.07,97.265 A70.332,70.332,0,0,0,477.135,97.178 Z M189.646,443.408 L523.561,149.644 L856.354,443.356 L856.354,907.708 L189.646,907.708 Z" />
+    <path
+        android:name="路径_82"
+        android:fillColor="#ff5916"
+        android:pathData="M546.133,597.333 L546.133,819.2 L477.866,819.2 L477.866,597.333 A34.133,34.133,0,0,1,546.133,597.333 Z" />
+</vector>
