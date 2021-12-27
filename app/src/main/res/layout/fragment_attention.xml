@@ -25,7 +25,7 @@
         android:id="@+id/rv_attention_hor"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_below="@id/attention_toolbar"/>
+        android:layout_below="@id/attention_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_attention_ver"

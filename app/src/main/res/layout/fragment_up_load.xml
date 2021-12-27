@@ -36,19 +36,24 @@
         android:id="@+id/rl_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_below="@id/upload_toolbar">
+        android:layout_below="@id/upload_toolbar"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp">
+
         <FrameLayout
             android:id="@+id/fr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:background="@drawable/shape_default_upload">
+
             <ImageView
                 android:id="@+id/add_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_add_24"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_add_24" />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -63,57 +68,64 @@
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="#f5f5f5"
-        android:layout_below="@id/rl_add"/>
+        android:layout_below="@id/rl_add"
+        android:background="#f5f5f5" />
 
     <EditText
         android:id="@+id/image_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/view1"
-        android:layout_margin="10dp"
-        android:hint="标题"
-        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="10dp"
         android:background="@null"
-        android:textSize="20sp"/>
+        android:hint="标题"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#f5f5f5"
-        android:layout_below="@id/image_title"/>
+        android:layout_height="0.6dp"
+        android:layout_below="@id/image_title"
+        android:background="#f5f5f5" />
 
     <EditText
         android:id="@+id/image_msg"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:hint="描述一下你的图片吧~"
-        android:layout_marginStart="10dp"
-        android:maxLines="5"
-        android:gravity="top"
+        android:layout_below="@id/view2"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@null"
-        android:layout_below="@id/view2"/>
+        android:gravity="top"
+        android:hint="描述一下你的图片吧~"
+        android:maxLines="5" />
 
     <View
         android:id="@+id/view3"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#f5f5f5"
-        android:layout_below="@id/image_msg"/>
+        android:layout_height="0.6dp"
+        android:layout_below="@id/image_msg"
+        android:background="#f5f5f5" />
 
 
     <Button
         android:id="@+id/upload_image"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="46dp"
         android:layout_marginTop="70dp"
         android:layout_below="@id/view3"
         android:textColor="@color/white"
         android:background="@drawable/shape_button_bg"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="发布"/>
+        android:text="发布"
+        android:textSize="16sp"/>
 
 
 

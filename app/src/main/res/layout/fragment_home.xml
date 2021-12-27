@@ -74,10 +74,10 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/home_card_view"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="120dp"
                         android:layout_marginTop="10dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_margin="10dp"
+                        android:layout_margin="16dp"
                         app:cardCornerRadius="8dp">
 
                         <androidx.viewpager.widget.ViewPager
