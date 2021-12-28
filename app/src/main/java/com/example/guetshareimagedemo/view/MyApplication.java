@@ -17,8 +17,5 @@ public class MyApplication extends Application {
                 "MuL0q4PiQuSkofsn7g9aPqdb",
                 "https://k3d2yy5u.lc-cn-n1-shared.com");
 
-        /*LCObject testObject = new LCObject("TestObject");
-        testObject.put("words", "Hello world!");
-        testObject.saveInBackground().blockingSubscribe();*/
     }
 }

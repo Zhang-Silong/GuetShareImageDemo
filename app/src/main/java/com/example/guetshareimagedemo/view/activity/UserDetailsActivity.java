@@ -48,34 +48,41 @@ import cn.leancloud.LCUser;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+/**
+ * 用户个人中心界面（王禧玉）
+ */
 public class UserDetailsActivity extends AppCompatActivity implements View.OnClickListener, IUserView {
 
     private Toolbar toolbar;
     private ImageView back;
     private Button quitLogin;
-    private ShapeableImageView userCenterImage;
+    private ShapeableImageView userCenterImage;//头像
     private LinearLayout userCenterNickname;
     private LinearLayout userCenterGender;
     private LinearLayout userCenterSelfInfo;
-    private TextView myNickname;
-    private TextView myGender;
-    private TextView myInfo;
-    private AlertDialog alertDialog;
+    private TextView myNickname;//昵称
+    private TextView myGender;//性别
+    private TextView myInfo;//个性签名
+    private AlertDialog alertDialog;//修改个人资料的对话框
     private View view;
     private EditText editUserMsg;
-    private LCUser currentUser;
-    private UserDataPresenter userDataPresenter;
+    private LCUser currentUser;//当前用户
+    private UserDataPresenter userDataPresenter;//接收数据的Presenter层
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
+        //状态栏沉浸
         StatusBarUtil.transparencyBar(this);
         StatusBarUtil.StatusBarLightMode(this);
+        //初始化控件
         initView();
+        //获取当前已登录的用户
         currentUser = LCUser.getCurrentUser();
         userDataPresenter = new UserDataPresenter();
         userDataPresenter.registerView(this);
+        //Presenter层将数据回调到View层
         userDataPresenter.getUserSelfData();
     }
 
@@ -101,26 +108,23 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //点击头像
             case R.id.user_center_image:
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
                 View dialogView = LayoutInflater.from(this).inflate(R.layout.my_boottom_dialog, null);
-                TextView byCamera = dialogView.findViewById(R.id.by_camera);
+                //TextView byCamera = dialogView.findViewById(R.id.by_camera);
                 TextView byGallery = dialogView.findViewById(R.id.by_gallery);
-                byCamera.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        bottomSheetDialog.dismiss();
-                    }
-                });
                 byGallery.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //动态请求权限
                         if (ContextCompat.checkSelfPermission(UserDetailsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED){
                             ActivityCompat.requestPermissions(UserDetailsActivity.this, new String[]{
                                     Manifest.permission.READ_EXTERNAL_STORAGE
                             }, 1);
                         }else {
+                            //如果获取的权限，则打开系统相册
                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                             intent.setType("image/*");
                             startActivityForResult(intent, 1);
@@ -132,9 +136,11 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                 bottomSheetDialog.setContentView(dialogView);
                 bottomSheetDialog.show();
                 break;
+                //退出个人中心界面
             case R.id.back:
                 finish();
                 break;
+                //点击昵称所在的布局触发修改
             case R.id.user_center_name:
                 view = LayoutInflater.from(this).inflate(R.layout.my_dialog, null);
                 editUserMsg = view.findViewById(R.id.edit_user_msg);
@@ -181,6 +187,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                 alertDialog = nicknameBuilder.create();
                 alertDialog.show();
                 break;
+                //点击性别所在的布局出发修改
             case R.id.user_center_gender:
                 view = LayoutInflater.from(this).inflate(R.layout.my_dialog, null);
                 //editUserGender = view.findViewById(R.id.edit_user_gender);
@@ -199,6 +206,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                                 if (!TextUtils.isEmpty(newGender[0])) {
                                     myGender.setText(newGender[0]);
                                 }
+                                //将修改结果上传到服务器
                                 LCObject object = LCObject.createWithoutData("_User", currentUser.getObjectId());
                                 object.put("gender", newGender[0]);
                                 object.saveInBackground().subscribe(new Observer<LCObject>() {
@@ -233,6 +241,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                 alertDialog = genderBuilder.create();
                 alertDialog.show();
                 break;
+            //点击个性签名所在的布局出发修改
             case R.id.user_center_self_info:
                 view = LayoutInflater.from(this).inflate(R.layout.my_dialog, null);
                 editUserMsg = view.findViewById(R.id.edit_user_msg);
@@ -246,6 +255,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                                 if (!TextUtils.isEmpty(newInfo)) {
                                     myInfo.setText(newInfo);
                                 }
+                                //将修改结果上传到服务器
                                 LCObject object = LCObject.createWithoutData("_User", currentUser.getObjectId());
                                 object.put("selfInfo", newInfo);
                                 object.saveInBackground().subscribe(new Observer<LCObject>() {

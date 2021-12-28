@@ -52,15 +52,19 @@ import cn.leancloud.LCUser;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+/**
+ * 上传图片（刘柏良）
+ */
+
 public class UpLoadFragment extends Fragment implements IUserView {
 
     private static final int CODE_PICK_IMAGE = 1;
     private static final String TAG = "UpLoadFragment";
 
     private RelativeLayout rlAdd;
-    private TextView imageTitle;
-    private TextView imageMsg;
-    private Button upLoadImage;
+    private TextView imageTitle;//图片标题
+    private TextView imageMsg;//图片信息
+    private Button upLoadImage;//发布
     private RecyclerView rvUpLoad;
     private UpLoadRvAdapter upLoadRvAdapter;
     private ProgressBar uploadProgress;
@@ -80,6 +84,7 @@ public class UpLoadFragment extends Fragment implements IUserView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_up_load, container, false);
         initView(view);
+        //通过Presenter将数据传到view层
         userDataPresenter = new UserDataPresenter();
         userDataPresenter.registerView(this);
         userDataPresenter.getUserSelfData();
@@ -98,15 +103,18 @@ public class UpLoadFragment extends Fragment implements IUserView {
         rvUpLoad.setLayoutManager(linearLayoutManager);
         upLoadRvAdapter = new UpLoadRvAdapter();
 
+        //点击添加图片
         rlAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                //动态请求权限
                 if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(getActivity(), new String[]{
                             Manifest.permission.READ_EXTERNAL_STORAGE
                     }, 1);
                 }else {
+                    //如果获得权限，打开相册
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
                     startActivityForResult(intent, CODE_PICK_IMAGE);
@@ -114,6 +122,7 @@ public class UpLoadFragment extends Fragment implements IUserView {
             }
         });
 
+        //点击发布
         upLoadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +133,7 @@ public class UpLoadFragment extends Fragment implements IUserView {
                     if (currentUser != null) {
                         if (upLoadImageList != null) {
                             uploadProgress.setVisibility(View.VISIBLE);
+                            //将数据上传到数据库
                             LCObject object = new LCObject("UpLoadImageUrl");
                             for (UpLoadImage image : upLoadImageList) {
                                 object.put("account", currentUser.getUsername());
