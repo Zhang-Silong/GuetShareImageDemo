@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.ActivitySearchBinding;
 import com.example.guetshareimagedemo.model.bean.HomeLoadMoreImageBean;
 import com.example.guetshareimagedemo.utils.StatusBarUtil;
 import com.example.guetshareimagedemo.view.adapter.SearchAdapter;
@@ -22,35 +23,32 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private TextView searchTitle;
-    private ProgressBar progressBar;
+    private ActivitySearchBinding searchBinding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        recyclerView = findViewById(R.id.rv_search);
-        searchTitle = findViewById(R.id.search_text);
-        progressBar = findViewById(R.id.search_progress);
+        searchBinding = ActivitySearchBinding.inflate(getLayoutInflater());
+        setContentView(searchBinding.getRoot());
         StatusBarUtil.transparencyBar(this);
         StatusBarUtil.StatusBarLightMode(this);
-        progressBar.setVisibility(View.VISIBLE);
+        searchBinding.searchProgress.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
         List<HomeLoadMoreImageBean.ResBean.VerticalBean> list = (List<HomeLoadMoreImageBean.ResBean.VerticalBean>) intent.getSerializableExtra(HomeFragment.HOME_SEARCH);
         if (list.size() == 0) {
             Toast.makeText(this, "未搜索到相关内容", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
+            searchBinding.searchProgress.setVisibility(View.GONE);
         }else {
             SearchAdapter adapter = new SearchAdapter();
             adapter.setSearchList(list);
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(staggeredGridLayoutManager);
-            recyclerView.setAdapter(adapter);
-            progressBar.setVisibility(View.GONE);
+            searchBinding.rvSearch.setLayoutManager(staggeredGridLayoutManager);
+            searchBinding.rvSearch.setAdapter(adapter);
+            searchBinding.searchProgress.setVisibility(View.GONE);
         }
         String title = intent.getStringExtra(HomeFragment.SEARCH_TITLE);
-        searchTitle.setText(title);
+        searchBinding.searchText.setText(title);
 
         Log.d("SearchActivity", "list----->" + list.toString());
     }

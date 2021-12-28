@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.ActivityShowImageDetailsBinding;
+import com.example.guetshareimagedemo.databinding.ActivityUserDetailsBinding;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
@@ -51,59 +53,51 @@ import io.reactivex.disposables.Disposable;
 /**
  * 用户个人中心界面（王禧玉）
  */
-public class UserDetailsActivity extends AppCompatActivity implements View.OnClickListener, IUserView {
+public class UserDetailsActivity extends AppCompatActivity implements IUserView, View.OnClickListener {
 
-    private Toolbar toolbar;
+    private ActivityUserDetailsBinding userDetailsBinding;
+
+    private ShapeableImageView userCenterImage;
     private ImageView back;
-    private Button quitLogin;
-    private ShapeableImageView userCenterImage;//头像
-    private LinearLayout userCenterNickname;
+    private LinearLayout userCenterName;
     private LinearLayout userCenterGender;
-    private LinearLayout userCenterSelfInfo;
-    private TextView myNickname;//昵称
-    private TextView myGender;//性别
-    private TextView myInfo;//个性签名
+    private LinearLayout userCenterInfo;
     private AlertDialog alertDialog;//修改个人资料的对话框
     private View view;
     private EditText editUserMsg;
+    private Button quit;
     private LCUser currentUser;//当前用户
     private UserDataPresenter userDataPresenter;//接收数据的Presenter层
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_details);
+        userDetailsBinding = ActivityUserDetailsBinding.inflate(getLayoutInflater());
+        setContentView(userDetailsBinding.getRoot());
         //状态栏沉浸
         StatusBarUtil.transparencyBar(this);
         StatusBarUtil.StatusBarLightMode(this);
-        //初始化控件
-        initView();
+        userCenterImage = findViewById(R.id.user_center_image);
+        back = findViewById(R.id.back);
+        userCenterName = findViewById(R.id.user_center_name);
+        userCenterGender = findViewById(R.id.user_center_gender);
+        userCenterInfo = findViewById(R.id.user_center_self_info);
+        quit = findViewById(R.id.quit_login);
         //获取当前已登录的用户
         currentUser = LCUser.getCurrentUser();
         userDataPresenter = new UserDataPresenter();
         userDataPresenter.registerView(this);
         //Presenter层将数据回调到View层
         userDataPresenter.getUserSelfData();
+        userCenterImage.setOnClickListener(this);
+        back.setOnClickListener(this);
+        userCenterName.setOnClickListener(this);
+        userCenterGender.setOnClickListener(this);
+        userCenterInfo.setOnClickListener(this);
+        quit.setOnClickListener(this);
     }
 
-    private void initView(){
-        toolbar = findViewById(R.id.user_details_toolbar);
-        back = findViewById(R.id.back);
-        quitLogin = findViewById(R.id.quit_login);
-        userCenterImage = findViewById(R.id.user_center_image);
-        userCenterNickname = findViewById(R.id.user_center_name);
-        userCenterGender = findViewById(R.id.user_center_gender);
-        userCenterSelfInfo = findViewById(R.id.user_center_self_info);
-        myNickname = findViewById(R.id.my_nickname);
-        myGender = findViewById(R.id.my_gender);
-        myInfo = findViewById(R.id.my_info);
-        back.setOnClickListener(this);
-        userCenterImage.setOnClickListener(this);
-        userCenterNickname.setOnClickListener(this);
-        userCenterGender.setOnClickListener(this);
-        userCenterSelfInfo.setOnClickListener(this);
-        quitLogin.setOnClickListener(this);
-    }
+
 
     @Override
     public void onClick(View v) {
@@ -152,7 +146,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String newNickname = editUserMsg.getText().toString();
                                 if (!TextUtils.isEmpty(newNickname)) {
-                                    myNickname.setText(newNickname);
+                                    userDetailsBinding.myNickname.setText(newNickname);
                                 }
                                 dialogInterface.dismiss();
                                 LCObject object = LCObject.createWithoutData("_User", currentUser.getObjectId());
@@ -204,7 +198,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (!TextUtils.isEmpty(newGender[0])) {
-                                    myGender.setText(newGender[0]);
+                                    userDetailsBinding.myGender.setText(newGender[0]);
                                 }
                                 //将修改结果上传到服务器
                                 LCObject object = LCObject.createWithoutData("_User", currentUser.getObjectId());
@@ -253,7 +247,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String newInfo = editUserMsg.getText().toString();
                                 if (!TextUtils.isEmpty(newInfo)) {
-                                    myInfo.setText(newInfo);
+                                    userDetailsBinding.myInfo.setText(newInfo);
                                 }
                                 //将修改结果上传到服务器
                                 LCObject object = LCObject.createWithoutData("_User", currentUser.getObjectId());
@@ -306,7 +300,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
             case 1:
                 if (data != null) {
                     String imagePath = RealImagePathUtil.handleResponseImage(data, this);
-                    Glide.with(this).load(imagePath).into(userCenterImage);
+                    Glide.with(this).load(imagePath).into(userDetailsBinding.userCenterImage);
                     Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
                     String base64 = BitmapUtils.bitmapToBase64(bitmap);
                     Log.d("onActivityResult", "path----->" + base64);
@@ -364,10 +358,10 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onShowUserData(User user) {
-        myNickname.setText(user.getNickname());
-        myGender.setText(user.getGender());
-        myInfo.setText(user.getSelfInfo());
-        Glide.with(this).load(Constants.HEAD_BASE_64 + user.getUserImageBase64()).into(userCenterImage);
+        userDetailsBinding.myNickname.setText(user.getNickname());
+        userDetailsBinding.myGender.setText(user.getGender());
+        userDetailsBinding.myInfo.setText(user.getSelfInfo());
+        Glide.with(this).load(Constants.HEAD_BASE_64 + user.getUserImageBase64()).into(userDetailsBinding.userCenterImage);
     }
 
     @Override

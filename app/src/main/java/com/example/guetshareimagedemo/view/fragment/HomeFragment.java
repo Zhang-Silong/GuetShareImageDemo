@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.FragmentHomeBinding;
 import com.example.guetshareimagedemo.model.bean.HomeLoadMoreImageBean;
 import com.example.guetshareimagedemo.model.bean.ImageBean;
 import com.example.guetshareimagedemo.presenter.HomeImagePresenter;
@@ -46,26 +47,16 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     public static final String HOME_SEARCH = "home_search";
     public static final String SEARCH_TITLE = "search_title";
+    private FragmentHomeBinding homeBinding;
 
     private HomeImagePresenter homeImagePresenter;
-    private RecyclerView recyclerView;
     private HomeImageAdapter adapter;
-    private Toolbar toolbar;
-    private ViewPager bannerView;
 
-    private RelativeLayout homeLayout;
-    private MyNestedScrollView myNestedScrollView;
-    private LinearLayout nestedLayout;
-    private SearchView searchView;
 
-    /**
-     * 主界面下拉刷新
-     */
-    private RefreshLayout homeRefresh;
 
     private final Handler handler = new Handler();
 
-    private ProgressBar progressBar;
+
 
     /**
      * 主页rv数据
@@ -93,7 +84,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            bannerView.setCurrentItem(bannerView.getCurrentItem() + 1);
+            homeBinding.homeViewPager.setCurrentItem(homeBinding.homeViewPager.getCurrentItem() + 1);
             handler.postDelayed(runnable, 3000);
         }
     };
@@ -108,7 +99,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initView(view);
+        homeBinding = FragmentHomeBinding.inflate(getLayoutInflater());
         adapter = new HomeImageAdapter(getActivity());
         homeImagePresenter = new HomeImagePresenter();
         homeImagePresenter.registerView(this);
@@ -118,7 +109,7 @@ public class HomeFragment extends Fragment implements IHomeView {
         initRefreshListener();
         initLoadMoreListener();
         initLayoutListener();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        homeBinding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String typeId = "";
@@ -243,25 +234,25 @@ public class HomeFragment extends Fragment implements IHomeView {
             }
         });
         Log.d("UserFragment", "onCreateView");
-        return view;
+        return homeBinding.getRoot();
     }
 
     /**
      * 解决recyclerview滑动卡顿
      */
     private void initLayoutListener() {
-        homeLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        homeBinding.homeLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int headerHeight = nestedLayout.getMeasuredHeight();
-                myNestedScrollView.setHeaderHeight(headerHeight);
-                int measureHeight = homeLayout.getMeasuredHeight();
+                int headerHeight = homeBinding.nestedLayout.getMeasuredHeight();
+                homeBinding.myNestedScrollView.setHeaderHeight(headerHeight);
+                int measureHeight = homeBinding.homeLayout.getMeasuredHeight();
                 Log.d("HomeFragment", "measureHeight------>" + measureHeight);
-                ViewGroup.LayoutParams layoutParams = recyclerView.getLayoutParams();
+                ViewGroup.LayoutParams layoutParams = homeBinding.rvHomeFragment.getLayoutParams();
                 layoutParams.height = measureHeight;
-                recyclerView.setLayoutParams(layoutParams);
+                homeBinding.rvHomeFragment.setLayoutParams(layoutParams);
                 if (measureHeight != 0) {
-                    homeLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    homeBinding.homeLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             }
         });
@@ -272,8 +263,8 @@ public class HomeFragment extends Fragment implements IHomeView {
      */
     private void initBannerView() {
         BannerViewAdapter bannerViewAdapter = new BannerViewAdapter(bannerList);
-        bannerView.setAdapter(bannerViewAdapter);
-        bannerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        homeBinding.homeViewPager.setAdapter(bannerViewAdapter);
+        homeBinding.homeViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -290,15 +281,15 @@ public class HomeFragment extends Fragment implements IHomeView {
 
             }
         });
-        bannerView.setCurrentItem(bannerList.size() * 5);
+        homeBinding.homeViewPager.setCurrentItem(bannerList.size() * 5);
     }
 
     /**
      * 下拉刷新
      */
     private void initRefreshListener() {
-        homeRefresh.setEnableRefresh(true);
-        homeRefresh.setOnRefreshListener(new OnRefreshListener() {
+        homeBinding.homeRefresh.setEnableRefresh(true);
+        homeBinding.homeRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 homeImagePresenter.refreshHomeData();
@@ -311,7 +302,7 @@ public class HomeFragment extends Fragment implements IHomeView {
      *上拉加载更多
      */
     private void initLoadMoreListener(){
-        homeRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+        homeBinding.homeRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 Random random = new Random();
@@ -324,17 +315,7 @@ public class HomeFragment extends Fragment implements IHomeView {
         });
     }
 
-    private void initView(View view) {
-        recyclerView = view.findViewById(R.id.rv_home_fragment);
-        progressBar = view.findViewById(R.id.home_progress);
-        bannerView = view.findViewById(R.id.home_view_pager);
-        homeRefresh = view.findViewById(R.id.home_refresh);
-        homeLayout = view.findViewById(R.id.home_layout);
-        myNestedScrollView = view.findViewById(R.id.my_nested_scroll_view);
-        nestedLayout = view.findViewById(R.id.nested_layout);
-        searchView = view.findViewById(R.id.search);
-        //top = view.findViewById(R.id.top);
-    }
+
 
     @Override
     public void onShowImg(ImageBean imageBean) {
@@ -347,13 +328,13 @@ public class HomeFragment extends Fragment implements IHomeView {
 
         adapter.setImageBeanList(verticalBeanList);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        recyclerView.setAdapter(adapter);
+        homeBinding.rvHomeFragment.setLayoutManager(staggeredGridLayoutManager);
+        homeBinding.rvHomeFragment.setAdapter(adapter);
     }
 
     @Override
     public void onLoad() {
-        progressBar.setVisibility(View.VISIBLE);
+        homeBinding.homeProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -364,7 +345,7 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     @Override
     public void onLoadOver() {
-        progressBar.setVisibility(View.GONE);
+        homeBinding.homeProgress.setVisibility(View.GONE);
     }
 
     @Override

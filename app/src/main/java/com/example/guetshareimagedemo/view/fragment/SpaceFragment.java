@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.FragmentSpaceBinding;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
@@ -32,14 +33,12 @@ import java.util.List;
 
 public class SpaceFragment extends Fragment implements IUserView {
 
-    private Toolbar toolbar;
-    private RecyclerView rvSpace;
 
     private SpaceRvAdapter spaceRvAdapter;
     private UserDataPresenter userDataPresenter;
-    private RefreshLayout spaceRefresh;
 
     private List<UpLoadImage> upLoadImageList = new ArrayList<>();
+    private FragmentSpaceBinding spaceBinding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +48,7 @@ public class SpaceFragment extends Fragment implements IUserView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_space, container, false);
-        toolbar = view.findViewById(R.id.space_toolbar);
-        rvSpace = view.findViewById(R.id.rv_space);
-        spaceRefresh = view.findViewById(R.id.space_refresh);
+        spaceBinding = FragmentSpaceBinding.inflate(getLayoutInflater());
         spaceRvAdapter = new SpaceRvAdapter();
         StatusBarUtil.transparencyBar(getActivity());
         StatusBarUtil.StatusBarLightMode(getActivity());
@@ -60,7 +56,7 @@ public class SpaceFragment extends Fragment implements IUserView {
         userDataPresenter.registerView(this);
         userDataPresenter.getUserUpLoadImageData();
 
-        spaceRefresh.setOnRefreshListener(new OnRefreshListener() {
+        spaceBinding.spaceRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 userDataPresenter.getUserUpLoadImageData();
@@ -70,7 +66,7 @@ public class SpaceFragment extends Fragment implements IUserView {
 
 
         Log.d("SpaceFragment", "onCreateView");
-        return view;
+        return spaceBinding.getRoot();
     }
 
     @Override
@@ -83,9 +79,9 @@ public class SpaceFragment extends Fragment implements IUserView {
         this.upLoadImageList = upLoadImageList;
         Log.d("SpaceFragment", "space------>" + upLoadImageList.toString());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        rvSpace.setLayoutManager(linearLayoutManager);
+        spaceBinding.rvSpace.setLayoutManager(linearLayoutManager);
         spaceRvAdapter.setUpLoadImageList(this.upLoadImageList);
-        rvSpace.setAdapter(spaceRvAdapter);
+        spaceBinding.rvSpace.setAdapter(spaceRvAdapter);
 
 
 

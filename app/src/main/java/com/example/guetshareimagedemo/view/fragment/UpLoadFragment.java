@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.FragmentUpLoadBinding;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
@@ -61,17 +62,12 @@ public class UpLoadFragment extends Fragment implements IUserView {
     private static final int CODE_PICK_IMAGE = 1;
     private static final String TAG = "UpLoadFragment";
 
-    private RelativeLayout rlAdd;
-    private TextView imageTitle;//图片标题
-    private TextView imageMsg;//图片信息
-    private Button upLoadImage;//发布
-    private RecyclerView rvUpLoad;
     private UpLoadRvAdapter upLoadRvAdapter;
-    private ProgressBar uploadProgress;
     private UserDataPresenter userDataPresenter;
     private User user;
 
     private List<UpLoadImage> upLoadImageList = new ArrayList<>();
+    private FragmentUpLoadBinding upLoadBinding;
 
 
     @Override
@@ -82,29 +78,23 @@ public class UpLoadFragment extends Fragment implements IUserView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_up_load, container, false);
-        initView(view);
+        upLoadBinding = FragmentUpLoadBinding.inflate(getLayoutInflater());
         //通过Presenter将数据传到view层
+        initView(upLoadBinding.getRoot());
         userDataPresenter = new UserDataPresenter();
         userDataPresenter.registerView(this);
         userDataPresenter.getUserSelfData();
-        return view;
+        return upLoadBinding.getRoot();
     }
 
     private void initView(View view) {
-        rlAdd = view.findViewById(R.id.rl_add);
-        imageTitle = view.findViewById(R.id.image_title);
-        imageMsg = view.findViewById(R.id.image_msg);
-        upLoadImage = view.findViewById(R.id.upload_image);
-        rvUpLoad = view.findViewById(R.id.rv_upload);
-        uploadProgress = view.findViewById(R.id.upload_progress);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rvUpLoad.setLayoutManager(linearLayoutManager);
+        upLoadBinding.rvUpload.setLayoutManager(linearLayoutManager);
         upLoadRvAdapter = new UpLoadRvAdapter();
 
         //点击添加图片
-        rlAdd.setOnClickListener(new View.OnClickListener(){
+        upLoadBinding.rlAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 //动态请求权限
@@ -123,16 +113,16 @@ public class UpLoadFragment extends Fragment implements IUserView {
         });
 
         //点击发布
-        upLoadImage.setOnClickListener(new View.OnClickListener() {
+        upLoadBinding.uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = imageTitle.getText().toString();
-                String msg = imageMsg.getText().toString();
+                String title = upLoadBinding.imageTitle.getText().toString();
+                String msg = upLoadBinding.imageMsg.getText().toString();
                 if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(msg)) {
                     LCUser currentUser = LCUser.getCurrentUser();
                     if (currentUser != null) {
                         if (upLoadImageList != null) {
-                            uploadProgress.setVisibility(View.VISIBLE);
+                            upLoadBinding.uploadProgress.setVisibility(View.VISIBLE);
                             //将数据上传到数据库
                             LCObject object = new LCObject("UpLoadImageUrl");
                             for (UpLoadImage image : upLoadImageList) {
@@ -172,12 +162,12 @@ public class UpLoadFragment extends Fragment implements IUserView {
                         }else {
                             Toast.makeText(getActivity(), "图片不能为空！", Toast.LENGTH_SHORT).show();
                         }
-                        imageTitle.setText("");
-                        imageMsg.setText("");
+                        upLoadBinding.imageTitle.setText("");
+                        upLoadBinding.imageMsg.setText("");
                         upLoadImageList.clear();
                         upLoadRvAdapter.setUpLoadImageList(upLoadImageList);
-                        rvUpLoad.setAdapter(upLoadRvAdapter);
-                        uploadProgress.setVisibility(View.GONE);
+                        upLoadBinding.rvUpload.setAdapter(upLoadRvAdapter);
+                        upLoadBinding.uploadProgress.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "发布成功！", Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_SHORT).show();
@@ -214,7 +204,7 @@ public class UpLoadFragment extends Fragment implements IUserView {
                     upLoadImage.setFlag(true);
                     upLoadImageList.add(upLoadImage);
                     upLoadRvAdapter.setUpLoadImageList(upLoadImageList);
-                    rvUpLoad.setAdapter(upLoadRvAdapter);
+                    upLoadBinding.rvUpload.setAdapter(upLoadRvAdapter);
 
                 }
                 break;

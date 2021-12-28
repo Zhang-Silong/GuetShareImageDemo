@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.ActivityLoginBinding;
 import com.example.guetshareimagedemo.view.fragment.UserFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -22,50 +23,35 @@ import io.reactivex.disposables.Disposable;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView registerTips;
-    private TextInputEditText loginAccount;
-    private TextInputEditText loginPassword;
-    private CheckBox select;
-    private TextView findPassword;
-    private Button login;
+    private ActivityLoginBinding loginBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(loginBinding.getRoot());
         initView();
     }
 
     private void initView() {
-        registerTips = findViewById(R.id.register_tips);
-        loginAccount = findViewById(R.id.user_login_account);
-        loginPassword = findViewById(R.id.user_login_password);
-        select = findViewById(R.id.select);
-        findPassword = findViewById(R.id.find_password);
-        login = findViewById(R.id.login);
-        registerTips.setOnClickListener(new View.OnClickListener() {
+        loginBinding.registerTips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
-        select.setOnClickListener(new View.OnClickListener() {
+        loginBinding.select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        findPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        login.setOnClickListener(new View.OnClickListener() {
+        loginBinding.login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String account = loginAccount.getText().toString();
-                String password = loginPassword.getText().toString();
+                String account = loginBinding.userLoginAccount.getText().toString();
+                String password = loginBinding.userLoginPassword.getText().toString();
                 if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(password)) {
                     LCUser.logIn(account, password).subscribe(new Observer<LCUser>() {
                         @Override

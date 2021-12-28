@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.FragmentUserBinding;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
@@ -25,7 +26,6 @@ import com.example.guetshareimagedemo.model.bean.UserAttention;
 import com.example.guetshareimagedemo.presenter.UserDataPresenter;
 import com.example.guetshareimagedemo.utils.Constants;
 import com.example.guetshareimagedemo.view.activity.LoginActivity;
-import com.example.guetshareimagedemo.view.activity.TestActivity;
 import com.example.guetshareimagedemo.view.activity.UserDetailsActivity;
 import com.example.guetshareimagedemo.view.adapter.UserViewPagerAdapter;
 import com.example.guetshareimagedemo.view.callback.IUserView;
@@ -45,48 +45,21 @@ public class UserFragment extends Fragment implements IUserView{
 
     private static final String TAG = "UserFragment";
 
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-    private Toolbar toolbar;
+    private FragmentUserBinding userBinding;
 
-    private TabLayout userTab;
-    private ViewPager userViewPager;
     private UserViewPagerAdapter userViewPagerAdapter;
-    private ShapeableImageView userImage;
-    private TextView userName;
-    private TextView userAttention;
-    private RefreshLayout viewpagerRefresh;
 
-    private TextView beLikedCount;
-    private TextView attentionCount;
-    private TextView fansCount;
 
     private List<String> titleList = new ArrayList<>();
     private List<LikeImage> pagerImageList = new ArrayList<>();
     private List<UpLoadImage> upLoadImageList = new ArrayList<>();
 
     private UserDataPresenter userDataPresenter;
-    private UserViewPagerLikeFragment userViewPagerLikeFragment;
-    private UserSendFragment userSendFragment;
 
     private boolean isInit = false;
 
 
-    private TextWatcher watcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
 
 
     @Override
@@ -99,10 +72,10 @@ public class UserFragment extends Fragment implements IUserView{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        userBinding = FragmentUserBinding.inflate(getLayoutInflater());
         isInit = true;
         initTitleList();
-        initView(view);
+        initView(userBinding.getRoot());
         userDataPresenter = new UserDataPresenter();
         userDataPresenter.registerView(this);
         userDataPresenter.getUserSelfData();
@@ -110,27 +83,16 @@ public class UserFragment extends Fragment implements IUserView{
         userDataPresenter.getUserLikeImageData();
 
         Log.d(TAG, "onCreateView");
-        return view;
+        return userBinding.getRoot();
     }
 
 
     private void initView(View view) {
-        collapsingToolbarLayout = view.findViewById(R.id.collapsingToolbarLayout);
-        //toolbar = view.findViewById(R.id.user_toolbar);
-        userTab = view.findViewById(R.id.user_tab);
-        userImage = view.findViewById(R.id.user_image);
-        userName = view.findViewById(R.id.user_name);
-        userAttention = view.findViewById(R.id.user_attention);
-        userViewPager = view.findViewById(R.id.user_view_pager);
-        viewpagerRefresh = view.findViewById(R.id.view_pager_refresh);
-        beLikedCount = view.findViewById(R.id.be_liked_count);
-        attentionCount = view.findViewById(R.id.attention_count);
-        fansCount = view.findViewById(R.id.fans_count);
-        userViewPager.setOffscreenPageLimit(2);
+        userBinding.userViewPager.setOffscreenPageLimit(2);
         userViewPagerAdapter = new UserViewPagerAdapter(getChildFragmentManager());
         userViewPagerAdapter.setTitleList(titleList);
         //userTab.setupWithViewPager(userViewPager);
-        userImage.setOnClickListener(new View.OnClickListener() {
+        userBinding.userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LCUser currentUser = LCUser.getCurrentUser();
@@ -142,21 +104,15 @@ public class UserFragment extends Fragment implements IUserView{
             }
         });
 
-        userName.setOnClickListener(new View.OnClickListener() {
+        userBinding.userName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), UserDetailsActivity.class));
             }
         });
 
-        userAttention.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), TestActivity.class));
-            }
-        });
 
-        viewpagerRefresh.setOnRefreshListener(new OnRefreshListener() {
+        userBinding.viewPagerRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 userDataPresenter.getUserSelfData();
@@ -179,11 +135,11 @@ public class UserFragment extends Fragment implements IUserView{
     @Override
     public void onShowUserData(User user) {
         //Log.d("UserFragment", "user----->" + user.toString());
-        userName.setText(user.getNickname());
-        beLikedCount.setText(Integer.toString(user.getAwardedCount()));
-        attentionCount.setText(Integer.toString(user.getAttentionCount()));
-        fansCount.setText(Integer.toString(user.getFans()));
-        Glide.with(getActivity()).load(Constants.HEAD_BASE_64 + user.getUserImageBase64()).into(userImage);
+        userBinding.userName.setText(user.getNickname());
+        userBinding.beLikedCount.setText(Integer.toString(user.getAwardedCount()));
+        userBinding.attentionCount.setText(Integer.toString(user.getAttentionCount()));
+        userBinding.fansCount.setText(Integer.toString(user.getFans()));
+        Glide.with(getActivity()).load(Constants.HEAD_BASE_64 + user.getUserImageBase64()).into(userBinding.userImage);
     }
 
     @Override
@@ -193,8 +149,8 @@ public class UserFragment extends Fragment implements IUserView{
         //userViewPagerAdapter.setLikeImageList(pagerImageList);
         if (pagerImageList != null) {
             userViewPagerAdapter.setLikeImageList(pagerImageList);
-            userViewPager.setAdapter(userViewPagerAdapter);
-            userTab.setupWithViewPager(userViewPager);
+            userBinding.userViewPager.setAdapter(userViewPagerAdapter);
+            userBinding.userTab.setupWithViewPager(userBinding.userViewPager);
         }
 
         //userViewPagerAdapter.notifyDataSetChanged();
@@ -214,8 +170,8 @@ public class UserFragment extends Fragment implements IUserView{
         if (this.upLoadImageList != null) {
             userViewPagerAdapter.setUpLoadImageList(this.upLoadImageList);
             userViewPagerAdapter.notifyDataSetChanged();
-            userViewPager.setAdapter(userViewPagerAdapter);
-            userTab.setupWithViewPager(userViewPager);
+            userBinding.userViewPager.setAdapter(userViewPagerAdapter);
+            userBinding.userTab.setupWithViewPager(userBinding.userViewPager);
         }
 
     }

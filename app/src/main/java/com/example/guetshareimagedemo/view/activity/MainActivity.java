@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.ActivityMainBinding;
 import com.example.guetshareimagedemo.view.fragment.HomeFragment;
 import com.example.guetshareimagedemo.view.fragment.AttentionFragment;
 import com.example.guetshareimagedemo.view.fragment.SpaceFragment;
@@ -19,11 +20,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends BaseActivity{
 
-    private BottomNavigationView bottomNavigationView;
+    private ActivityMainBinding binding;
+
+
     private HomeFragment homeFragment;
     private SpaceFragment spaceFragment;
     private UpLoadFragment upLoadFragment;
-    private AttentionFragment attentionFragment;
     private UserFragment userFragment;
 
     private Fragment lastFragment;
@@ -31,7 +33,8 @@ public class MainActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         bindView();
         initFragment();
         switchFragment(homeFragment);
@@ -68,7 +71,7 @@ public class MainActivity extends BaseActivity{
     }
 
     private void initListener() {
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -94,8 +97,7 @@ public class MainActivity extends BaseActivity{
     }
 
     private void bindView() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setItemIconTintList(null);
+        binding.bottomNavigation.setItemIconTintList(null);
     }
 
 

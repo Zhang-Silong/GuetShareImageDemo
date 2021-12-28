@@ -20,9 +20,6 @@
             android:name=".view.activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".view.activity.TestActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.activity.SplashActivity"
             android:exported="false" />
         <activity

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.databinding.FragmentUserViewPagerBinding;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
@@ -31,6 +32,7 @@ public class UserViewPagerLikeFragment extends Fragment {
     private RecyclerView rvLikeImage;
 
     private List<LikeImage> imageList = new ArrayList<>();
+    private FragmentUserViewPagerBinding viewPagerBinding;
 
     public void setImageList(List<LikeImage> imageList) {
         this.imageList = imageList;
@@ -47,15 +49,14 @@ public class UserViewPagerLikeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_view_pager, container, false);
-        rvLikeImage = view.findViewById(R.id.rv_view_pager);
+        viewPagerBinding = FragmentUserViewPagerBinding.inflate(getLayoutInflater());
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        rvLikeImage.setLayoutManager(staggeredGridLayoutManager);
+        viewPagerBinding.rvViewPager.setLayoutManager(staggeredGridLayoutManager);
         UserViewRvAdapter adapter = new UserViewRvAdapter();
         adapter.setImageList(imageList);
         Log.d("UserLikeFragment", "list--------->" + imageList.size());
-        rvLikeImage.setAdapter(adapter);
-        return view;
+        viewPagerBinding.rvViewPager.setAdapter(adapter);
+        return viewPagerBinding.getRoot();
     }
 
 }

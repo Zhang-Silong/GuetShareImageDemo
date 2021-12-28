@@ -8,5 +8,4 @@ public interface IUserCallBack<T>{
     void onSuccess(T response);
 
     void onFailure(String msg);
-
 }
