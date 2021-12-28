@@ -21,8 +21,9 @@ import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
+import com.example.guetshareimagedemo.model.bean.UserAttention;
 import com.example.guetshareimagedemo.presenter.UserDataPresenter;
-import com.example.guetshareimagedemo.utils.Constant;
+import com.example.guetshareimagedemo.utils.Constants;
 import com.example.guetshareimagedemo.view.activity.LoginActivity;
 import com.example.guetshareimagedemo.view.activity.TestActivity;
 import com.example.guetshareimagedemo.view.activity.UserDetailsActivity;
@@ -64,7 +65,8 @@ public class UserFragment extends Fragment implements IUserView{
     private List<UpLoadImage> upLoadImageList = new ArrayList<>();
 
     private UserDataPresenter userDataPresenter;
-    private UserViewPagerFragment userViewPagerFragment;
+    private UserViewPagerLikeFragment userViewPagerLikeFragment;
+    private UserSendFragment userSendFragment;
 
     private boolean isInit = false;
 
@@ -99,14 +101,13 @@ public class UserFragment extends Fragment implements IUserView{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         isInit = true;
-        userViewPagerAdapter = new UserViewPagerAdapter(getChildFragmentManager());
         initTitleList();
         initView(view);
         userDataPresenter = new UserDataPresenter();
         userDataPresenter.registerView(this);
         userDataPresenter.getUserSelfData();
-        //userDataPresenter.getUserUpLoadImageData();
-        //userDataPresenter.getUserLikeImageData();
+        userDataPresenter.getUserUpLoadImageData();
+        userDataPresenter.getUserLikeImageData();
 
         Log.d(TAG, "onCreateView");
         return view;
@@ -125,8 +126,10 @@ public class UserFragment extends Fragment implements IUserView{
         beLikedCount = view.findViewById(R.id.be_liked_count);
         attentionCount = view.findViewById(R.id.attention_count);
         fansCount = view.findViewById(R.id.fans_count);
+        userViewPager.setOffscreenPageLimit(2);
+        userViewPagerAdapter = new UserViewPagerAdapter(getChildFragmentManager());
         userViewPagerAdapter.setTitleList(titleList);
-        userTab.setupWithViewPager(userViewPager);
+        //userTab.setupWithViewPager(userViewPager);
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,22 +178,31 @@ public class UserFragment extends Fragment implements IUserView{
 
     @Override
     public void onShowUserData(User user) {
-        Log.d("UserFragment", "user----->" + user.toString());
+        //Log.d("UserFragment", "user----->" + user.toString());
         userName.setText(user.getNickname());
         beLikedCount.setText(Integer.toString(user.getAwardedCount()));
         attentionCount.setText(Integer.toString(user.getAttentionCount()));
         fansCount.setText(Integer.toString(user.getFans()));
-        Glide.with(getActivity()).load(Constant.HEAD_BASE_64 + user.getUserImageBase64()).into(userImage);
+        Glide.with(getActivity()).load(Constants.HEAD_BASE_64 + user.getUserImageBase64()).into(userImage);
     }
 
     @Override
     public void onShowLikeImage(List<LikeImage> imageList) {
         pagerImageList = imageList;
-        Log.d("UserFragment", "list----->" + imageList.size());
+        Log.d("UserFragments", "likelist----->" + imageList.size());
         //userViewPagerAdapter.setLikeImageList(pagerImageList);
-        userViewPagerAdapter.setAllDataList(upLoadImageList, pagerImageList);
-        userViewPager.setAdapter(userViewPagerAdapter);
+        if (pagerImageList != null) {
+            userViewPagerAdapter.setLikeImageList(pagerImageList);
+            userViewPager.setAdapter(userViewPagerAdapter);
+            userTab.setupWithViewPager(userViewPager);
+        }
+
         //userViewPagerAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onShowAttention(List<UserAttention> attentionList) {
 
     }
 
@@ -199,10 +211,13 @@ public class UserFragment extends Fragment implements IUserView{
     public void onShowUpLoad(List<UpLoadImage> upLoadImageList) {
         this.upLoadImageList = upLoadImageList;
         Log.d("UserFragment", "upLoadList----->" + upLoadImageList.size());
-        //userViewPagerAdapter.setUpLoadImageList(this.upLoadImageList);
-        userViewPagerAdapter.setAllDataList(this.upLoadImageList, pagerImageList);
-        userViewPager.setAdapter(userViewPagerAdapter);
-        //userViewPagerAdapter.notifyDataSetChanged();
+        if (this.upLoadImageList != null) {
+            userViewPagerAdapter.setUpLoadImageList(this.upLoadImageList);
+            userViewPagerAdapter.notifyDataSetChanged();
+            userViewPager.setAdapter(userViewPagerAdapter);
+            userTab.setupWithViewPager(userViewPager);
+        }
+
     }
 
 

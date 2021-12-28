@@ -26,46 +26,18 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserViewPagerFragment extends Fragment {
+public class UserViewPagerLikeFragment extends Fragment {
 
     private RecyclerView rvLikeImage;
 
     private List<LikeImage> imageList = new ArrayList<>();
-    private List<UpLoadImage> upLoadImageList = new ArrayList<>();
-
-    private int flagPosition = 0;
-
-
-    public UserViewPagerFragment(List<LikeImage> imageList){
-        this.imageList = imageList;
-        Log.d("Test", "size---->" + imageList.size());
-    }
-
-   /* public static UserViewPagerFragment newInstance(){
-        //return ne
-    }*/
-
-    public UserViewPagerFragment() {
-    }
 
     public void setImageList(List<LikeImage> imageList) {
         this.imageList = imageList;
     }
 
 
-    public void setUpLoadImage(List<UpLoadImage> upLoadImageList) {
-        this.upLoadImageList = upLoadImageList;
-    }
 
-    public void setFlagPosition(int flagPosition) {
-        this.flagPosition = flagPosition;
-    }
-
-    public void setAllData(List<UpLoadImage> upLoadImageList, List<LikeImage> imageList, int flagPosition){
-        this.upLoadImageList = upLoadImageList;
-        this.imageList = imageList;
-        this.flagPosition = flagPosition;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,14 +52,8 @@ public class UserViewPagerFragment extends Fragment {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvLikeImage.setLayoutManager(staggeredGridLayoutManager);
         UserViewRvAdapter adapter = new UserViewRvAdapter();
-        if (flagPosition == 0) {
-            adapter.setFlagPosition(0);
-            adapter.setUpLoadImageList(upLoadImageList);
-        }else {
-            adapter.setFlagPosition(1);
-            adapter.setImageList(imageList);
-        }
-        adapter.notifyDataSetChanged();
+        adapter.setImageList(imageList);
+        Log.d("UserLikeFragment", "list--------->" + imageList.size());
         rvLikeImage.setAdapter(adapter);
         return view;
     }

@@ -18,6 +18,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
+        app:itemIconTint="@null"
         app:menu="@menu/home_bottom_navigation" />
 
 

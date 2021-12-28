@@ -1,18 +1,13 @@
 package com.example.guetshareimagedemo.view.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,15 +18,12 @@ import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.HomeLoadMoreImageBean;
 import com.example.guetshareimagedemo.model.bean.ImageBean;
-import com.example.guetshareimagedemo.model.bean.User;
-import com.example.guetshareimagedemo.utils.Constant;
+import com.example.guetshareimagedemo.utils.Constants;
 import com.example.guetshareimagedemo.view.activity.ShowImageDetailsActivity;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 import cn.leancloud.LCObject;
 import cn.leancloud.LCUser;
@@ -112,16 +104,19 @@ public class HomeImageAdapter extends RecyclerView.Adapter<HomeImageAdapter.MyVi
         params.height = heightList.get(position);
         holder.imageView.setLayoutParams(params);
         String imgUrl;
+        String title = "" ;
         if (position >= imageBeanList.size()){
             imgUrl = loadMoreList.get(imageBeanList.size() + loadMoreList.size() - position - 1).getImg();
+            //title = loadMoreList.get(imageBeanList.size() + loadMoreList.size() - position - 1).get;
         }else {
             imgUrl = imageBeanList.get(position).getImg();
+
         }
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(holder.imageView.getContext(), ShowImageDetailsActivity.class);
-                intent.putExtra(Constant.KEY_SHOW_IMG_DETAILS, imgUrl);
+                intent.putExtra(Constants.KEY_SHOW_IMG_DETAILS, imgUrl);
                 holder.imageView.getContext().startActivity(intent);
             }
         });
@@ -168,6 +163,7 @@ public class HomeImageAdapter extends RecyclerView.Adapter<HomeImageAdapter.MyVi
             }
         });
         Log.d("HomeImageAdapter", "ImageList--------->" + imgUrl);
+        holder.imageText.setText(title);
         Glide.with(holder.imageView.getContext()).load(imgUrl).into(holder.imageView);
     }
 

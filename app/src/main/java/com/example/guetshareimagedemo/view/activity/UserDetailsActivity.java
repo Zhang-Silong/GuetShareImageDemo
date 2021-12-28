@@ -2,7 +2,6 @@ package com.example.guetshareimagedemo.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,14 +14,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,16 +31,15 @@ import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
+import com.example.guetshareimagedemo.model.bean.UserAttention;
 import com.example.guetshareimagedemo.presenter.UserDataPresenter;
 import com.example.guetshareimagedemo.utils.BitmapUtils;
-import com.example.guetshareimagedemo.utils.Constant;
+import com.example.guetshareimagedemo.utils.Constants;
 import com.example.guetshareimagedemo.utils.RealImagePathUtil;
 import com.example.guetshareimagedemo.utils.StatusBarUtil;
 import com.example.guetshareimagedemo.view.callback.IUserView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -154,11 +149,33 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                                     myNickname.setText(newNickname);
                                 }
                                 dialogInterface.dismiss();
+                                LCObject object = LCObject.createWithoutData("_User", currentUser.getObjectId());
+                                object.put("nickname", newNickname);
+                                object.saveInBackground().subscribe(new Observer<LCObject>() {
+                                    @Override
+                                    public void onSubscribe(@NonNull Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(@NonNull LCObject lcObject) {
+
+                                    }
+
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                    }
+                                });
                             }
                         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
                             }
                         });
                 alertDialog = nicknameBuilder.create();
@@ -340,7 +357,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
         myNickname.setText(user.getNickname());
         myGender.setText(user.getGender());
         myInfo.setText(user.getSelfInfo());
-        Glide.with(this).load(Constant.HEAD_BASE_64 + user.getUserImageBase64()).into(userCenterImage);
+        Glide.with(this).load(Constants.HEAD_BASE_64 + user.getUserImageBase64()).into(userCenterImage);
     }
 
     @Override
@@ -350,6 +367,11 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onShowLikeImage(List<LikeImage> imageList) {
+
+    }
+
+    @Override
+    public void onShowAttention(List<UserAttention> attentionList) {
 
     }
 

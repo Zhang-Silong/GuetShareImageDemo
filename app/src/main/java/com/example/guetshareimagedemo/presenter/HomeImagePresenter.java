@@ -70,6 +70,25 @@ public class HomeImagePresenter implements IHomeImagePresenter<IHomeView> {
         }, typeId);
     }
 
+    /**
+     *搜索
+     */
+    public void homeSearch(String typeId){
+        MvpModel.homeLoadMoreResponse(new IHomeCallBack<HomeLoadMoreImageBean>() {
+            @Override
+            public void onSuccess(HomeLoadMoreImageBean imageBean) {
+                if (imageBean != null) {
+                    iHomeView.onSearch(imageBean);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        }, typeId);
+    }
+
     @Override
     public void registerView(IHomeView iHomeView) {
         this.iHomeView = iHomeView;

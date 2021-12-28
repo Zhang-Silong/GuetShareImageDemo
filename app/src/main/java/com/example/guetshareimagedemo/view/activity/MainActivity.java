@@ -1,6 +1,7 @@
 package com.example.guetshareimagedemo.view.activity;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -46,7 +47,7 @@ public class MainActivity extends BaseActivity{
         homeFragment = new HomeFragment();
         spaceFragment = new SpaceFragment();
         upLoadFragment = new UpLoadFragment();
-        attentionFragment = new AttentionFragment();
+        //attentionFragment = new AttentionFragment();
         userFragment = new UserFragment();
     }
 
@@ -80,9 +81,9 @@ public class MainActivity extends BaseActivity{
                     case R.id.upload:
                         switchFragment(upLoadFragment);
                         break;
-                    case R.id.message:
+                    /*case R.id.message:
                         switchFragment(attentionFragment);
-                        break;
+                        break;*/
                     case R.id.user_center:
                         switchFragment(userFragment);
                         break;
@@ -94,6 +95,7 @@ public class MainActivity extends BaseActivity{
 
     private void bindView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setItemIconTintList(null);
     }
 
 

@@ -12,6 +12,8 @@ public interface IHomeView {
 
     void onLoad();
 
+    void onSearch(HomeLoadMoreImageBean imageBean);
+
     void onLoadOver();
 
     void onRefresh(ImageBean imageBean);

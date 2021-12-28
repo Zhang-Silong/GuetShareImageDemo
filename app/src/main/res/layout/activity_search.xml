@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".view.activity.SearchActivity">
+
+
+    <ProgressBar
+        android:id="@+id/search_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/my_color"
+        android:layout_centerInParent="true"/>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#eeeeee"
+            android:gravity="center"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <TextView
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="结果"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:paddingTop="30dp"
+                android:gravity="center"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            />
+
+
+
+
+</RelativeLayout>

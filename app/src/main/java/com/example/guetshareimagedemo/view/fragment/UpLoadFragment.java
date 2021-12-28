@@ -34,10 +34,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guetshareimagedemo.R;
+import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
+import com.example.guetshareimagedemo.model.bean.User;
+import com.example.guetshareimagedemo.model.bean.UserAttention;
+import com.example.guetshareimagedemo.presenter.UserDataPresenter;
 import com.example.guetshareimagedemo.utils.BitmapUtils;
 import com.example.guetshareimagedemo.utils.RealImagePathUtil;
 import com.example.guetshareimagedemo.view.adapter.UpLoadRvAdapter;
+import com.example.guetshareimagedemo.view.callback.IUserView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +52,7 @@ import cn.leancloud.LCUser;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class UpLoadFragment extends Fragment {
+public class UpLoadFragment extends Fragment implements IUserView {
 
     private static final int CODE_PICK_IMAGE = 1;
     private static final String TAG = "UpLoadFragment";
@@ -59,6 +64,8 @@ public class UpLoadFragment extends Fragment {
     private RecyclerView rvUpLoad;
     private UpLoadRvAdapter upLoadRvAdapter;
     private ProgressBar uploadProgress;
+    private UserDataPresenter userDataPresenter;
+    private User user;
 
     private List<UpLoadImage> upLoadImageList = new ArrayList<>();
 
@@ -73,6 +80,9 @@ public class UpLoadFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_up_load, container, false);
         initView(view);
+        userDataPresenter = new UserDataPresenter();
+        userDataPresenter.registerView(this);
+        userDataPresenter.getUserSelfData();
         return view;
     }
 
@@ -118,6 +128,9 @@ public class UpLoadFragment extends Fragment {
                             for (UpLoadImage image : upLoadImageList) {
                                 object.put("account", currentUser.getUsername());
                                 object.put("parentId", currentUser.getObjectId());
+                                object.put("userImage", user.getUserImage());
+                                object.put("userImageBase64", user.getUserImageBase64());
+                                object.put("nickname", user.getNickname());
                                 object.put("imageTitle", title);
                                 object.put("imageMsg", msg);
                                 object.put("imageUrl", image.getImageUrl());
@@ -218,5 +231,36 @@ public class UpLoadFragment extends Fragment {
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onShowUserData(User user) {
+        this.user = user;
+        Log.d(TAG, "user----->" + this.user.toString());
+    }
+
+    @Override
+    public void onShowUpLoad(List<UpLoadImage> upLoadImageList) {
+
+    }
+
+    @Override
+    public void onShowLikeImage(List<LikeImage> imageList) {
+
+    }
+
+    @Override
+    public void onShowAttention(List<UserAttention> attentionList) {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void loadMore() {
+
     }
 }

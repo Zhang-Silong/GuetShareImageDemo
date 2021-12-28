@@ -7,7 +7,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_view_pager"
+        android:id="@+id/rv_view_pager_send"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

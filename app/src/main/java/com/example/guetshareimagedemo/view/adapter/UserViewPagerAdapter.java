@@ -7,18 +7,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
-import com.example.guetshareimagedemo.model.bean.User;
-import com.example.guetshareimagedemo.view.fragment.UserViewPagerFragment;
+import com.example.guetshareimagedemo.view.fragment.UserSendFragment;
+import com.example.guetshareimagedemo.view.fragment.UserViewPagerLikeFragment;
 
 import java.util.List;
 
 /**
  * Created by ZhangSilong on 2021/12/23.
  */
-public class UserViewPagerAdapter extends FragmentPagerAdapter {
+public class UserViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<String> titleList;
 
@@ -28,7 +29,6 @@ public class UserViewPagerAdapter extends FragmentPagerAdapter {
 
     public void setTitleList(List<String> titleList){
         this.titleList = titleList;
-        notifyDataSetChanged();
     }
 
     public void setLikeImageList(List<LikeImage> likeImageList) {
@@ -43,10 +43,7 @@ public class UserViewPagerAdapter extends FragmentPagerAdapter {
         notifyDataSetChanged();
     }
 
-    public void setAllDataList(List<UpLoadImage> upLoadImageList, List<LikeImage> likeImageList){
-        this.upLoadImageList = upLoadImageList;
-        this.likeImageList = likeImageList;
-    }
+
 
     public UserViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -55,7 +52,19 @@ public class UserViewPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        UserViewPagerFragment userViewPagerFragment = new UserViewPagerFragment();
+        UserViewPagerLikeFragment userViewPagerLikeFragment = new UserViewPagerLikeFragment();
+        UserSendFragment userSendFragment = new UserSendFragment();
+        if (position == 0) {
+            userSendFragment.setUpLoadImageList(upLoadImageList);
+            //Log.d("ViewpagerAdapter", "当前是-----》1,,,,,," + upLoadImageList.size());
+            return userSendFragment;
+        }else {
+            userViewPagerLikeFragment.setImageList(likeImageList);
+            Log.d("ViewpagerAdapter", "当前是-----》2,,,," + likeImageList.size());
+            return userViewPagerLikeFragment;
+        }
+        /*userSendFragment.setUpLoadImageList(upLoadImageList);
+        return userSendFragment;*/
         /*if (position == 0) {
             userViewPagerFragment.setFlagPosition(position);
             userViewPagerFragment.setUpLoadImage(upLoadImageList);
@@ -63,9 +72,9 @@ public class UserViewPagerAdapter extends FragmentPagerAdapter {
             userViewPagerFragment.setFlagPosition(position);
             userViewPagerFragment.setImageList(likeImageList);
         }*/
-        Log.d("TestTest", String.valueOf(upLoadImageList.size() + likeImageList.size()));
-        userViewPagerFragment.setAllData(upLoadImageList, likeImageList, position);
-        return userViewPagerFragment;
+        /*Log.d("TestTest", String.valueOf(upLoadImageList.size() + likeImageList.size()));
+        userViewPagerLikeFragment.setAllData(upLoadImageList, likeImageList, position);
+        return userViewPagerLikeFragment;*/
     }
 
     @Nullable

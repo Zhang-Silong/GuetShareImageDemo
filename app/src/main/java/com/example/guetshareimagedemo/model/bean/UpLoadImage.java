@@ -14,6 +14,15 @@ public class UpLoadImage {
     private String userImage;
     private String base64;
     private boolean flag;
+    private String userImageBase64;
+
+    public String getUserImageBase64() {
+        return userImageBase64;
+    }
+
+    public void setUserImageBase64(String userImageBase64) {
+        this.userImageBase64 = userImageBase64;
+    }
 
     public boolean isFlag() {
         return flag;

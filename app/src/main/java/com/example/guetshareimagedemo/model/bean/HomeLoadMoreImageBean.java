@@ -1,5 +1,6 @@
 package com.example.guetshareimagedemo.model.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -70,7 +71,7 @@ public class HomeLoadMoreImageBean {
                     '}';
         }
 
-        public static class VerticalBean {
+        public static class VerticalBean implements Serializable{
             @Override
             public String toString() {
                 return "VerticalBean{" +

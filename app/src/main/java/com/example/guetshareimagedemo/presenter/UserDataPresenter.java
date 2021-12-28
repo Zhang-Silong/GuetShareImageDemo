@@ -11,6 +11,7 @@ import com.example.guetshareimagedemo.model.MvpModel;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
+import com.example.guetshareimagedemo.model.bean.UserAttention;
 import com.example.guetshareimagedemo.view.callback.IUserCallBack;
 import com.example.guetshareimagedemo.view.callback.IUserView;
 
@@ -74,6 +75,24 @@ public class UserDataPresenter implements IHomeImagePresenter<IUserView> {
             public void onSuccess(List<UpLoadImage> response) {
                 Log.d(TAG, "getUserUpLoadImageData--->" + response.toString());
                 iUserView.onShowUpLoad(response);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
+    }
+
+    /**
+     *将用户关注的用户传回view层
+     */
+    public void getUserAttentionData(){
+        MvpModel.userAttentionUserResponse(new IUserCallBack<List<UserAttention>>() {
+            @Override
+            public void onSuccess(List<UserAttention> response) {
+                Log.d(TAG, "getUserAttentionData--->" + response.toString());
+                iUserView.onShowAttention(response);
             }
 
             @Override

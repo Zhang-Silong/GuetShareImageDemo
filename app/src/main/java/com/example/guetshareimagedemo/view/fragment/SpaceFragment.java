@@ -17,6 +17,7 @@ import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
+import com.example.guetshareimagedemo.model.bean.UserAttention;
 import com.example.guetshareimagedemo.presenter.UserDataPresenter;
 import com.example.guetshareimagedemo.utils.StatusBarUtil;
 import com.example.guetshareimagedemo.view.adapter.SpaceRvAdapter;
@@ -92,6 +93,11 @@ public class SpaceFragment extends Fragment implements IUserView {
 
     @Override
     public void onShowLikeImage(List<LikeImage> imageList) {
+
+    }
+
+    @Override
+    public void onShowAttention(List<UserAttention> attentionList) {
 
     }
 

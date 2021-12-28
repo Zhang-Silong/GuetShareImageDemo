@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
-import com.example.guetshareimagedemo.utils.Constant;
+import com.example.guetshareimagedemo.utils.Constants;
 
 public class ShowImageDetailsActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class ShowImageDetailsActivity extends AppCompatActivity {
         showImg = findViewById(R.id.img_details);
 
         Intent intent = getIntent();
-        String url = intent.getStringExtra(Constant.KEY_SHOW_IMG_DETAILS);
+        String url = intent.getStringExtra(Constants.KEY_SHOW_IMG_DETAILS);
         Glide.with(this).load(url).into(showImg);
     }
 }

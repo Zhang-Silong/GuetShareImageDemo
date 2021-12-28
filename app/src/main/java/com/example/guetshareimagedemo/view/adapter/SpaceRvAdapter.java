@@ -1,9 +1,7 @@
 package com.example.guetshareimagedemo.view.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.backup.BackupDataInput;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.utils.BitmapUtils;
-import com.example.guetshareimagedemo.utils.Constant;
+import com.example.guetshareimagedemo.utils.Constants;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -52,16 +50,17 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SpaceViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SpaceViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String nickName = upLoadImageList.get(position).getNickName();
         String account = upLoadImageList.get(position).getAccount();
         String userImage = upLoadImageList.get(position).getUserImage();
         String imageUrl = upLoadImageList.get(position).getImageUrl();
+        String userImageBase64 = upLoadImageList.get(position).getUserImageBase64();
         String title = upLoadImageList.get(position).getImageTitle();
         String msg = upLoadImageList.get(position).getImageMsg();
         String base64 = upLoadImageList.get(position).getBase64();
-        Glide.with(holder.spaceUserImage.getContext()).load(Constant.HEAD_BASE_64 + base64).into(holder.spaceUserImage);
-        Glide.with(holder.spaceImage.getContext()).load(imageUrl).into(holder.spaceImage);
+        Glide.with(holder.spaceUserImage.getContext()).load(Constants.HEAD_BASE_64 + userImageBase64).into(holder.spaceUserImage);
+        Glide.with(holder.spaceImage.getContext()).load(Constants.HEAD_BASE_64 + base64).into(holder.spaceImage);
         holder.userNickName.setText(nickName);
         holder.spaceTitle.setText(title);
         holder.spaceMsg.setText(msg);
@@ -79,12 +78,12 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
                 @SuppressLint("ResourceAsColor")
                 @Override
                 public void onNext(@NonNull List<LCObject> lcObjects) {
-                    if (lcObjects.size() != 0) {
-                        //holder.spaceAttention.setEnabled(false);
-                        holder.spaceAttention.setText("已关注");
-                        holder.spaceAttention.setTextColor(R.color.black);
-                        holder.spaceAttention.setBackgroundResource(R.drawable.shape_text_bg);
-                        Log.d("Adapter", "false---->" + lcObjects.size());
+                    for (LCObject object : lcObjects) {
+                        if (upLoadImageList.get(position).getAccount().equals((String) object.get("currentAccount"))) {
+                            holder.spaceAttention.setText("已关注");
+                            holder.spaceAttention.setTextColor(R.color.black);
+                            holder.spaceAttention.setBackgroundResource(R.drawable.shape_text_bg);
+                        }
                     }
                 }
 
@@ -98,6 +97,7 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
 
                 }
             });
+
         }
 
         holder.spaceAttention.setOnClickListener(new View.OnClickListener() {
@@ -116,10 +116,9 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
                         @SuppressLint("ResourceAsColor")
                         @Override
                         public void onNext(@NonNull List<LCObject> lcObjects) {
-                            if (lcObjects .size() != 0) {
-                                //holder.spaceAttention.setEnabled(false);
-                                Toast.makeText(holder.spaceAttention.getContext(), "该用户已关注,不可重复关注", Toast.LENGTH_SHORT).show();
-                            }else {
+                            if (account == currentUser.getUsername()){
+                                Toast.makeText(holder.spaceAttention.getContext(), "关注失败！", Toast.LENGTH_SHORT).show();
+                            } else {
                                 LCObject lcObject = new LCObject("UserAttention");
                                 lcObject.put("currentAccount", currentUser.getUsername());
                                 lcObject.put("imageUrl", imageUrl);
@@ -128,6 +127,7 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
                                 lcObject.put("userImage", userImage);
                                 String base64 = BitmapUtils.bitmapToBase64(BitmapFactory.decodeFile(imageUrl));
                                 lcObject.put("base64", base64);
+                                lcObject.put("userImageBase64", userImageBase64);
                                 lcObject.saveInBackground().subscribe(new Observer<LCObject>() {
                                     @Override
                                     public void onSubscribe(@NonNull Disposable d) {

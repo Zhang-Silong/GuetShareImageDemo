@@ -34,6 +34,7 @@ public class AttentionImageRvAdapter extends RecyclerView.Adapter<AttentionImage
 
     public void setAttentionList(List<UserAttention> attentionList) {
         this.attentionList = attentionList;
+        notifyDataSetChanged();
     }
 
     @NonNull

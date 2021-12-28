@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
-import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -24,10 +23,8 @@ import java.util.List;
 public class UserViewRvAdapter extends RecyclerView.Adapter<UserViewRvAdapter.LikeViewHolder> {
 
     private List<LikeImage> imageList;
-    private List<UpLoadImage> upLoadImageList;
     private List<Integer> heightList = new ArrayList<>();
 
-    private int flagPosition = 0;
 
     @SuppressLint("NotifyDataSetChanged")
     public void setImageList(List<LikeImage> imageList) {
@@ -36,18 +33,6 @@ public class UserViewRvAdapter extends RecyclerView.Adapter<UserViewRvAdapter.Li
         initHeightList();
     }
 
-    public void setUpLoadImageList(List<UpLoadImage> upLoadImageList) {
-        this.upLoadImageList = upLoadImageList;
-        notifyDataSetChanged();
-        //initHeightList();
-    }
-
-    public void setFlagPosition(int flagPosition) {
-        this.flagPosition = flagPosition;
-    }
-
-    public UserViewRvAdapter() {
-    }
 
     public void initHeightList() {
         heightList.add(1000);
@@ -71,33 +56,17 @@ public class UserViewRvAdapter extends RecyclerView.Adapter<UserViewRvAdapter.Li
     @Override
     public void onBindViewHolder(@NonNull LikeViewHolder holder, int position) {
         Log.d("RVTest", String.valueOf(position + imageList.size()));
-        if (flagPosition == 0) {
-            if (upLoadImageList.size() > 0) {
-                ViewGroup.LayoutParams params = holder.likeImage.getLayoutParams();
-                params.height = heightList.get(position);
-                holder.likeImage.setLayoutParams(params);
-                String imageUrl = upLoadImageList.get(position).getImageUrl();
-                Glide.with(holder.likeImage.getContext()).load(imageUrl).into(holder.likeImage);
-            }
-        }else {
-            if (imageList.size() > 0) {
-                ViewGroup.LayoutParams params = holder.likeImage.getLayoutParams();
-                params.height = heightList.get(position);
-                holder.likeImage.setLayoutParams(params);
-                String imageUrl = imageList.get(position).getImageUrl();
-                Glide.with(holder.likeImage.getContext()).load(imageUrl).into(holder.likeImage);
-            }
-        }
+        ViewGroup.LayoutParams params = holder.likeImage.getLayoutParams();
+        params.height = heightList.get(position);
+        holder.likeImage.setLayoutParams(params);
+        String base64 = imageList.get(position).getBase64();
+        Glide.with(holder.likeImage.getContext()).load(imageList.get(position).getImageUrl()).into(holder.likeImage);
 
     }
 
     @Override
     public int getItemCount() {
-        if (flagPosition == 0) {
-            return upLoadImageList.size();
-        }else {
-            return imageList.size();
-        }
+        return imageList.size();
     }
 
     static class LikeViewHolder extends RecyclerView.ViewHolder{

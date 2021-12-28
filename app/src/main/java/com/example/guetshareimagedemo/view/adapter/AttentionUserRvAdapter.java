@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.UserAttention;
+import com.example.guetshareimagedemo.utils.Constants;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class AttentionUserRvAdapter extends RecyclerView.Adapter<AttentionUserRv
 
     public void setAttentionList(List<UserAttention> attentionList) {
         this.attentionList = attentionList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,8 +41,9 @@ public class AttentionUserRvAdapter extends RecyclerView.Adapter<AttentionUserRv
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         String imageUrl = attentionList.get(position).getUserImage();
+        String base64 = attentionList.get(position).getUserImageBase64();
         String nickName = attentionList.get(position).getNickName();
-        Glide.with(holder.topUserImage.getContext()).load(imageUrl).into(holder.topUserImage);
+        Glide.with(holder.topUserImage.getContext()).load(Constants.HEAD_BASE_64 + base64).into(holder.topUserImage);
         holder.topNickName.setText(nickName);
     }
 

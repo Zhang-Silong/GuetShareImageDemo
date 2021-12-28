@@ -16,6 +16,9 @@
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/other_bg.xml" value="0.24923076923076923" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/select.xml" value="0.253125" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/selector_bottom_view.xml" value="0.18888888888888888" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/selector_space.xml" value="0.28055555555555556" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/selector_upload.xml" value="0.28055555555555556" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/selector_user.xml" value="0.28055555555555556" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/shape_attention_bg.xml" value="0.14722222222222223" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/shape_back.xml" value="0.24923076923076923" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/shape_button_bg.xml" value="0.253125" />
@@ -33,9 +36,14 @@
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/user_false.xml" value="0.19722222222222222" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/user_like.xml" value="0.20185185185185187" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/user_true.xml" value="0.19722222222222222" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/发现.xml" value="0.28055555555555556" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/发现_选中.xml" value="0.28055555555555556" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/首页.xml" value="0.28055555555555556" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/drawable/首页_选中.xml" value="0.28055555555555556" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/activity_login.xml" value="0.22239583333333332" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/activity_main.xml" value="0.22239583333333332" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/activity_register.xml" value="0.20606884057971014" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/activity_search.xml" value="0.375" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/activity_show_image_details.xml" value="0.23697916666666666" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/activity_splash.xml" value="0.21195652173913043" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/activity_test.xml" value="0.23697916666666666" />
@@ -46,12 +54,15 @@
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/fragment_space.xml" value="0.22239583333333332" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/fragment_up_load.xml" value="0.22239583333333332" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/fragment_user.xml" value="0.22239583333333332" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/fragment_user_send.xml" value="0.23697916666666666" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/fragment_user_view_pager.xml" value="0.22239583333333332" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_attention.xml" value="0.23697916666666666" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_attention_image.xml" value="0.11524822695035461" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_attention_user.xml" value="0.23697916666666666" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_home_img.xml" value="0.22239583333333332" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_like_image.xml" value="0.1358695652173913" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_search.xml" value="0.23697916666666666" />
+        <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_send_fragment.xml" value="0.23697916666666666" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_space.xml" value="0.23697916666666666" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/item_upload_iamge.xml" value="0.23697916666666666" />
         <entry key="..\:/guetandroid/GuetShareImageDemo/app/src/main/res/layout/my_boottom_dialog.xml" value="0.23697916666666666" />

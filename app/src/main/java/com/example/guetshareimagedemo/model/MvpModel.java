@@ -12,6 +12,7 @@ import com.example.guetshareimagedemo.model.bean.ImageBean;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
+import com.example.guetshareimagedemo.model.bean.UserAttention;
 import com.example.guetshareimagedemo.utils.RetrofitManager;
 import com.example.guetshareimagedemo.utils.UrlUtils;
 import com.example.guetshareimagedemo.view.callback.IHomeCallBack;
@@ -34,6 +35,10 @@ import retrofit2.Retrofit;
 
 /**
  * Created by ZhangSilong on 2021/12/18.
+ */
+
+/**
+ * Model层
  */
 public class MvpModel {
 
@@ -208,12 +213,13 @@ public class MvpModel {
                     List<UpLoadImage> upLoadImageList = new ArrayList<>();
                     for (LCObject lcObject : lcObjects) {
                         UpLoadImage upLoadImage = new UpLoadImage();
-                        upLoadImage.setAccount(currentUser.getUsername());
+                        upLoadImage.setAccount((String) lcObject.get("account"));
                         upLoadImage.setImageUrl((String) lcObject.get("imageUrl"));
                         upLoadImage.setNickName((String) lcObject.get("nickname"));
                         upLoadImage.setImageTitle((String) lcObject.get("imageTitle"));
                         upLoadImage.setImageMsg((String) lcObject.get("imageMsg"));
                         upLoadImage.setUserImage((String) lcObject.get("userImage"));
+                        upLoadImage.setUserImageBase64((String) lcObject.get("userImageBase64"));
                         upLoadImage.setBase64((String) lcObject.get("base64"));
                         upLoadImage.setFlag((Boolean) lcObject.get("flag"));
                         upLoadImageList.add(upLoadImage);
@@ -235,6 +241,50 @@ public class MvpModel {
             });
         }
 
+    }
+
+    /**
+     * 获取用户关注的数据
+     */
+    public static final void userAttentionUserResponse(IUserCallBack<List<UserAttention>> iUserCallBack){
+        LCUser currentUser = LCUser.getCurrentUser();
+        if (currentUser != null) {
+            LCQuery<LCObject> query = new LCQuery<>("UserAttention");
+            query.whereEqualTo("currentAccount", currentUser.getUsername());
+            query.findInBackground().subscribe(new Observer<List<LCObject>>() {
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
+
+                }
+
+                @Override
+                public void onNext(@NonNull List<LCObject> lcObjects) {
+                    List<UserAttention> attentionList = new ArrayList<>();
+                    for (LCObject lcObject : lcObjects) {
+                        UserAttention userAttention = new UserAttention();
+                        userAttention.setAccount((String) lcObject.get("account"));
+                        userAttention.setCurrentAccount((String) lcObject.get("currentAccount"));
+                        userAttention.setParentId((String) lcObject.get("objectId"));
+                        userAttention.setNickName((String) lcObject.get("nickName"));
+                        userAttention.setUserImageBase64((String) lcObject.get("userImageBase64"));
+                        userAttention.setBase64((String) lcObject.get("base64"));
+                        userAttention.setImageMsg((String) lcObject.get("imageMsg"));
+                        attentionList.add(userAttention);
+                    }
+                    iUserCallBack.onSuccess(attentionList);
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
+        }
     }
 
 

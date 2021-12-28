@@ -141,6 +141,7 @@ public class User {
                 ", awardedCount=" + awardedCount +
                 ", attentionCount=" + attentionCount +
                 ", fans=" + fans +
+                ", userImageBase64='" + userImageBase64 + '\'' +
                 ", likeImageUrl=" + likeImageUrl +
                 ", upLoadImageUrl=" + upLoadImageUrl +
                 ", userAttentionList=" + userAttentionList +
