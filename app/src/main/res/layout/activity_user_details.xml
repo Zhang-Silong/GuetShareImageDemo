@@ -32,7 +32,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/user_center_image"
+        android:id="@+id/user_detail_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_below="@id/user_details_toolbar"
@@ -46,11 +46,11 @@
         android:id="@+id/rv_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/user_center_image"
+        android:layout_below="@id/user_detail_image"
         android:layout_marginTop="60dp">
 
         <LinearLayout
-            android:id="@+id/user_center_name"
+            android:id="@+id/lv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -64,10 +64,9 @@
                 android:textSize="14sp"/>
 
             <TextView
-                android:id="@+id/my_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="无"
+                android:text="Android"
                 android:textColor="#707070"
                 android:layout_marginStart="90dp"
                 android:textSize="14sp"/>
@@ -78,12 +77,12 @@
             android:id="@+id/view_name"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/user_center_name"
+            android:layout_below="@id/lv_name"
             android:background="#A8A2A2"
             android:layout_margin="16dp"/>
 
         <LinearLayout
-            android:id="@+id/user_center_gender"
+            android:id="@+id/lv_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/view_name"
@@ -98,10 +97,9 @@
                 android:textSize="14sp"/>
 
             <TextView
-                android:id="@+id/my_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="无"
+                android:text="女"
                 android:textColor="#707070"
                 android:layout_marginStart="90dp"
                 android:textSize="14sp"/>
@@ -112,12 +110,12 @@
             android:id="@+id/view_gender"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/user_center_gender"
+            android:layout_below="@id/lv_gender"
             android:background="#A8A2A2"
             android:layout_margin="16dp"/>
 
         <LinearLayout
-            android:id="@+id/user_center_self_info"
+            android:id="@+id/lv_self_introduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/view_gender"
@@ -126,18 +124,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="个性签名"
+                android:text="个人介绍"
                 android:textColor="#262626"
                 android:layout_marginStart="16dp"
                 android:textSize="14sp"/>
 
             <TextView
-                android:id="@+id/my_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="这个人很懒，什么都没留下。"
                 android:textColor="#707070"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="70dp"
                 android:textSize="14sp"/>
 
         </LinearLayout>
@@ -145,7 +142,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/user_center_self_info"
+            android:layout_below="@id/lv_self_introduction"
             android:background="#A8A2A2"
             android:layout_margin="16dp"/>
 
