@@ -10,6 +10,11 @@ public class Constant {
      */
     public static final String KEY_SHOW_IMG_DETAILS = "show_img_details";
 
+    /**
+     * 访问base64需要添加的头部
+     */
+    public static final String HEAD_BASE_64 = "data:image/jpg;base64,";
+
 
     /**
      * 默认上拉加载返回的图片类型，风景

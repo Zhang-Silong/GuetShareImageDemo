@@ -6,6 +6,8 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -33,6 +35,8 @@ import android.widget.Toast;
 
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
+import com.example.guetshareimagedemo.utils.BitmapUtils;
+import com.example.guetshareimagedemo.utils.RealImagePathUtil;
 import com.example.guetshareimagedemo.view.adapter.UpLoadRvAdapter;
 
 import java.util.ArrayList;
@@ -117,6 +121,8 @@ public class UpLoadFragment extends Fragment {
                                 object.put("imageTitle", title);
                                 object.put("imageMsg", msg);
                                 object.put("imageUrl", image.getImageUrl());
+                                object.put("base64", image.getBase64());
+                                object.put("flag", image.isFlag());
                                 object.saveInBackground().subscribe(new Observer<LCObject>() {
                                     @Override
                                     public void onSubscribe(@NonNull Disposable d) {
@@ -167,7 +173,7 @@ public class UpLoadFragment extends Fragment {
     }
 
     /**
-     * 使用ContentProvider访问手机相册数据
+     * 访问手机相册数据
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -175,10 +181,14 @@ public class UpLoadFragment extends Fragment {
         switch (requestCode) {
             case 1:
                 if (data != null) {
-                    String imagePath = handleResponseImage(data);
+                    String imagePath = RealImagePathUtil.handleResponseImage(data, getActivity());
+                    Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                    String base64 = BitmapUtils.bitmapToBase64(bitmap);
                     Log.d(TAG, "path----->" + imagePath);
                     UpLoadImage upLoadImage = new UpLoadImage();
                     upLoadImage.setImageUrl(imagePath);
+                    upLoadImage.setBase64(base64);
+                    upLoadImage.setFlag(true);
                     upLoadImageList.add(upLoadImage);
                     upLoadRvAdapter.setUpLoadImageList(upLoadImageList);
                     rvUpLoad.setAdapter(upLoadRvAdapter);
@@ -188,43 +198,6 @@ public class UpLoadFragment extends Fragment {
         }
     }
 
-    /**
-     * 处理获得的图片
-     */
-    private String handleResponseImage(Intent data){
-        String imagePath = null;
-        Uri uri = data.getData();
-        if (DocumentsContract.isDocumentUri(getActivity(), uri)) {
-            String docId = DocumentsContract.getDocumentId(uri);
-            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                String id = docId.split(":")[1];
-                String selection = MediaStore.Images.Media._ID + "=" + id;
-                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
-            }else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())){
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
-                        Long.valueOf(docId));
-                imagePath = getImagePath(contentUri, null);
-            }
-        }else if ("content".equalsIgnoreCase(uri.getScheme())){
-            imagePath = getImagePath(uri, null);
-        }else if ("file".equalsIgnoreCase(uri.getScheme())){
-            imagePath = uri.getPath();
-        }
-        return imagePath;
-    }
-
-    private String getImagePath(Uri uri, String selection){
-        String path = null;
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        Cursor cursor = contentResolver.query(uri, null, selection, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            }
-            cursor.close();
-        }
-        return path;
-    }
 
 
 

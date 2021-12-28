@@ -1,10 +1,15 @@
 package com.example.guetshareimagedemo.view.adapter;
 
+import android.annotation.SuppressLint;
+import android.app.backup.BackupDataInput;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
+import com.example.guetshareimagedemo.utils.BitmapUtils;
+import com.example.guetshareimagedemo.utils.Constant;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
+
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
+import cn.leancloud.LCUser;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by ZhangSilong on 2021/12/26.
@@ -41,15 +54,121 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
     @Override
     public void onBindViewHolder(@NonNull SpaceViewHolder holder, int position) {
         String nickName = upLoadImageList.get(position).getNickName();
+        String account = upLoadImageList.get(position).getAccount();
         String userImage = upLoadImageList.get(position).getUserImage();
         String imageUrl = upLoadImageList.get(position).getImageUrl();
         String title = upLoadImageList.get(position).getImageTitle();
         String msg = upLoadImageList.get(position).getImageMsg();
-        Glide.with(holder.spaceUserImage.getContext()).load(userImage).into(holder.spaceUserImage);
+        String base64 = upLoadImageList.get(position).getBase64();
+        Glide.with(holder.spaceUserImage.getContext()).load(Constant.HEAD_BASE_64 + base64).into(holder.spaceUserImage);
         Glide.with(holder.spaceImage.getContext()).load(imageUrl).into(holder.spaceImage);
         holder.userNickName.setText(nickName);
         holder.spaceTitle.setText(title);
         holder.spaceMsg.setText(msg);
+
+        LCUser currentUser = LCUser.getCurrentUser();
+        if (currentUser != null) {
+            LCQuery<LCObject> query = new LCQuery<>("UserAttention");
+            query.whereEqualTo("currentAccount", currentUser.getUsername());
+            query.findInBackground().subscribe(new Observer<List<LCObject>>() {
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
+
+                }
+
+                @SuppressLint("ResourceAsColor")
+                @Override
+                public void onNext(@NonNull List<LCObject> lcObjects) {
+                    if (lcObjects.size() != 0) {
+                        //holder.spaceAttention.setEnabled(false);
+                        holder.spaceAttention.setText("已关注");
+                        holder.spaceAttention.setTextColor(R.color.black);
+                        holder.spaceAttention.setBackgroundResource(R.drawable.shape_text_bg);
+                        Log.d("Adapter", "false---->" + lcObjects.size());
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
+        }
+
+        holder.spaceAttention.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LCUser currentUser = LCUser.getCurrentUser();
+                if (currentUser != null) {
+                    LCQuery<LCObject> query = new LCQuery<>("UserAttention");
+                    query.whereEqualTo("currentAccount", currentUser.getUsername());
+                    query.findInBackground().subscribe(new Observer<List<LCObject>>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+
+                        }
+
+                        @SuppressLint("ResourceAsColor")
+                        @Override
+                        public void onNext(@NonNull List<LCObject> lcObjects) {
+                            if (lcObjects .size() != 0) {
+                                //holder.spaceAttention.setEnabled(false);
+                                Toast.makeText(holder.spaceAttention.getContext(), "该用户已关注,不可重复关注", Toast.LENGTH_SHORT).show();
+                            }else {
+                                LCObject lcObject = new LCObject("UserAttention");
+                                lcObject.put("currentAccount", currentUser.getUsername());
+                                lcObject.put("imageUrl", imageUrl);
+                                lcObject.put("account", account);
+                                lcObject.put("imageMsg", title);
+                                lcObject.put("userImage", userImage);
+                                String base64 = BitmapUtils.bitmapToBase64(BitmapFactory.decodeFile(imageUrl));
+                                lcObject.put("base64", base64);
+                                lcObject.saveInBackground().subscribe(new Observer<LCObject>() {
+                                    @Override
+                                    public void onSubscribe(@NonNull Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(@NonNull LCObject lcObject) {
+
+                                    }
+
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                    }
+                                });
+                                //holder.spaceAttention.setEnabled(false);
+                                holder.spaceAttention.setText("已关注");
+                                holder.spaceAttention.setTextColor(R.color.black);
+                                holder.spaceAttention.setBackgroundResource(R.drawable.shape_text_bg);
+                            }
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -61,7 +180,7 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
 
         ShapeableImageView spaceUserImage;
         TextView userNickName;
-        TextView userAttention;
+        TextView spaceAttention;
         ImageView spaceImage;
         TextView spaceTitle;
         TextView spaceMsg;
@@ -71,7 +190,7 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
             super(itemView);
             spaceUserImage = itemView.findViewById(R.id.space_user_image);
             userNickName = itemView.findViewById(R.id.user_nickname);
-            userAttention = itemView.findViewById(R.id.user_attention);
+            spaceAttention = itemView.findViewById(R.id.space_attention);
             spaceImage = itemView.findViewById(R.id.space_image);
             spaceTitle = itemView.findViewById(R.id.space_title);
             spaceMsg = itemView.findViewById(R.id.space_msg);

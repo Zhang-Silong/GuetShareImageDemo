@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.LikeImage;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.model.bean.User;
 import com.example.guetshareimagedemo.presenter.UserDataPresenter;
+import com.example.guetshareimagedemo.utils.Constant;
 import com.example.guetshareimagedemo.view.activity.LoginActivity;
 import com.example.guetshareimagedemo.view.activity.TestActivity;
 import com.example.guetshareimagedemo.view.activity.UserDetailsActivity;
@@ -124,8 +126,6 @@ public class UserFragment extends Fragment implements IUserView{
         attentionCount = view.findViewById(R.id.attention_count);
         fansCount = view.findViewById(R.id.fans_count);
         userViewPagerAdapter.setTitleList(titleList);
-        //userViewPager.setOffscreenPageLimit(2);
-        //userViewPager.setAdapter(userViewPagerAdapter);
         userTab.setupWithViewPager(userViewPager);
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,28 +163,6 @@ public class UserFragment extends Fragment implements IUserView{
             }
         });
 
-//        userViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                if (position == 0) {
-//                    userDataPresenter.getUserUpLoadImageData();
-//
-//                }else {
-//                    userDataPresenter.getUserLikeImageData();
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-
 
 
     }
@@ -193,7 +171,6 @@ public class UserFragment extends Fragment implements IUserView{
     private void initTitleList(){
         titleList.add("动态");
         titleList.add("收藏");
-        //titleList.add("点赞");
     }
 
     @Override
@@ -203,6 +180,7 @@ public class UserFragment extends Fragment implements IUserView{
         beLikedCount.setText(Integer.toString(user.getAwardedCount()));
         attentionCount.setText(Integer.toString(user.getAttentionCount()));
         fansCount.setText(Integer.toString(user.getFans()));
+        Glide.with(getActivity()).load(Constant.HEAD_BASE_64 + user.getUserImageBase64()).into(userImage);
     }
 
     @Override

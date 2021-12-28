@@ -31,7 +31,7 @@
         android:id="@+id/rv_attention_ver"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/rv_attention_hor"/>
+        android:layout_below="@id/rv_attention_hor"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

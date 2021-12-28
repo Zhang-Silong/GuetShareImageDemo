@@ -69,7 +69,7 @@
                                 android:id="@+id/be_liked_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="99"
+                                android:text="0"
                                 android:textColor="@color/white"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -92,7 +92,7 @@
                                 android:id="@+id/attention_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="99"
+                                android:text="0"
                                 android:textColor="@color/white"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -114,7 +114,7 @@
                                 android:id="@+id/fans_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="99"
+                                android:text="0"
                                 android:textColor="@color/white"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -133,7 +133,7 @@
                             android:id="@+id/user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bro."
+                            android:text="未设置"
                             android:textColor="@color/white"
                             android:textSize="15dp"
                             android:textStyle="bold" />

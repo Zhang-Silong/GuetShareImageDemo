@@ -16,11 +16,29 @@ public class User {
     private int awardedCount;   //获赞数
     private int attentionCount; //关注人数
     private int fans;           //粉丝数
+    private String userImageBase64;
+
+    public String getUserImageBase64() {
+        return userImageBase64;
+    }
+
+    public void setUserImageBase64(String userImageBase64) {
+        this.userImageBase64 = userImageBase64;
+    }
 
     private List<LikeImage> likeImageUrl;  //点赞的照片
     private List<UpLoadImage> upLoadImageUrl; //发布的照片
+    private List<UserAttention> userAttentionList; //关注的用户
 
     public User() {
+    }
+
+    public List<UserAttention> getUserAttentionList() {
+        return userAttentionList;
+    }
+
+    public void setUserAttentionList(List<UserAttention> userAttentionList) {
+        this.userAttentionList = userAttentionList;
     }
 
     public String getAccount() {
@@ -125,6 +143,7 @@ public class User {
                 ", fans=" + fans +
                 ", likeImageUrl=" + likeImageUrl +
                 ", upLoadImageUrl=" + upLoadImageUrl +
+                ", userAttentionList=" + userAttentionList +
                 '}';
     }
 }

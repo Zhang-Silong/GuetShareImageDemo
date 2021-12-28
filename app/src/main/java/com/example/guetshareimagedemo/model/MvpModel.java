@@ -116,6 +116,7 @@ public class MvpModel {
                     int fans = (Integer) lcObjects.get(0).get("fans");
                     String gender = (String) lcObjects.get(0).get("gender");
                     String selfInf0 = (String) lcObjects.get(0).get("selfInfo");
+                    String base64 = (String) lcObjects.get(0).get("base64");
                     user.setAccount(account);
                     user.setUserImage(userImage);
                     user.setNickname(nickName);
@@ -125,6 +126,7 @@ public class MvpModel {
                     user.setGender(gender);
                     user.setSelfInfo(selfInf0);
                     user.setAccount(account);
+                    user.setUserImageBase64(base64);
                     Log.d("MVPModel", "test2----->" + user.toString());
                     iUserCallBack.onSuccess(user);
                 }
@@ -187,13 +189,13 @@ public class MvpModel {
     }
 
     /**
-     * 获取当前用户已发布的照片
+     * 获取所有用户已发布的照片
      */
     public static void userUpLoadImageResponse(IUserCallBack<List<UpLoadImage>> iUserCallBack){
         LCUser currentUser = LCUser.getCurrentUser();
         if (currentUser != null) {
             LCQuery<LCObject> query = new LCQuery<>("UpLoadImageUrl");
-            query.whereEqualTo("account", currentUser.getUsername());
+            query.whereEqualTo("flag", true);
             query.findInBackground().subscribe(new Observer<List<LCObject>>() {
                 @Override
                 public void onSubscribe(@NonNull Disposable d) {
@@ -212,6 +214,8 @@ public class MvpModel {
                         upLoadImage.setImageTitle((String) lcObject.get("imageTitle"));
                         upLoadImage.setImageMsg((String) lcObject.get("imageMsg"));
                         upLoadImage.setUserImage((String) lcObject.get("userImage"));
+                        upLoadImage.setBase64((String) lcObject.get("base64"));
+                        upLoadImage.setFlag((Boolean) lcObject.get("flag"));
                         upLoadImageList.add(upLoadImage);
                     }
                     user.setUpLoadImageUrl(upLoadImageList);

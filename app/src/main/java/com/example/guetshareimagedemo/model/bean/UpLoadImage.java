@@ -12,6 +12,24 @@ public class UpLoadImage {
     private String imageTitle;
     private String imageMsg;
     private String userImage;
+    private String base64;
+    private boolean flag;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public String getBase64() {
+        return base64;
+    }
+
+    public void setBase64(String base64) {
+        this.base64 = base64;
+    }
 
     public String getUserImage() {
         return userImage;
