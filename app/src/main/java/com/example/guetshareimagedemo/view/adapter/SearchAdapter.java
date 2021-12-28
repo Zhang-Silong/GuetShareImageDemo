@@ -1,5 +1,6 @@
 package com.example.guetshareimagedemo.view.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.HomeLoadMoreImageBean;
+import com.example.guetshareimagedemo.view.activity.ShowImageDetailsActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -56,7 +58,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         ViewGroup.LayoutParams params = holder.searchImage.getLayoutParams();
         params.height = heightList.get(position);
         holder.searchImage.setLayoutParams(params);
+        String url = searchList.get(position).getImg();
         Glide.with(holder.searchImage.getContext()).load(searchList.get(position).getImg()).into(holder.searchImage);
+        holder.searchImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.searchImage.getContext(), ShowImageDetailsActivity.class);
+                intent.putExtra("search", url);
+                holder.searchImage.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

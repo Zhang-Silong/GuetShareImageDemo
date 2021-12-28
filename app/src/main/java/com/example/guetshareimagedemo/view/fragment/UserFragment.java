@@ -115,6 +115,13 @@ public class UserFragment extends Fragment implements IUserView{
         userBinding.viewPagerRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (LCUser.getCurrentUser() == null) {
+                    Glide.with(getActivity()).load(R.drawable.ic_baseline_android_24).into(userBinding.userImage);
+                    userBinding.userName.setText("未设置");
+                    userBinding.fansCount.setText("0");
+                    userBinding.attentionCount.setText("0");
+                    userBinding.beLikedCount.setText("0");
+                }
                 userDataPresenter.getUserSelfData();
                 userDataPresenter.getUserLikeImageData();
                 userViewPagerAdapter.notifyDataSetChanged();
@@ -165,8 +172,13 @@ public class UserFragment extends Fragment implements IUserView{
 
     @Override
     public void onShowUpLoad(List<UpLoadImage> upLoadImageList) {
-        this.upLoadImageList = upLoadImageList;
-        Log.d("UserFragment", "upLoadList----->" + upLoadImageList.size());
+        List<UpLoadImage> tempList = new ArrayList<>();
+        for (UpLoadImage upLoadImage : upLoadImageList) {
+            upLoadImage.getAccount().equals(LCUser.getCurrentUser().getUsername());
+            tempList.add(upLoadImage);
+        }
+        this.upLoadImageList = tempList;
+        Log.d("UserFragment", "upLoadList----->" + tempList.size());
         if (this.upLoadImageList != null) {
             userViewPagerAdapter.setUpLoadImageList(this.upLoadImageList);
             userViewPagerAdapter.notifyDataSetChanged();

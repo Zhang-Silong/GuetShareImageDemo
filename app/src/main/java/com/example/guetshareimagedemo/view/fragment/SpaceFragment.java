@@ -81,6 +81,7 @@ public class SpaceFragment extends Fragment implements IUserView {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         spaceBinding.rvSpace.setLayoutManager(linearLayoutManager);
         spaceRvAdapter.setUpLoadImageList(this.upLoadImageList);
+        spaceRvAdapter.setContext(getActivity());
         spaceBinding.rvSpace.setAdapter(spaceRvAdapter);
 
 

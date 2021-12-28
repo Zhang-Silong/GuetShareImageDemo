@@ -1,6 +1,8 @@
 package com.example.guetshareimagedemo.view.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,10 @@ import com.example.guetshareimagedemo.R;
 import com.example.guetshareimagedemo.model.bean.UpLoadImage;
 import com.example.guetshareimagedemo.utils.BitmapUtils;
 import com.example.guetshareimagedemo.utils.Constants;
+import com.example.guetshareimagedemo.view.activity.ShowImageDetailsActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.leancloud.LCObject;
@@ -33,6 +37,11 @@ import io.reactivex.disposables.Disposable;
 public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceViewHolder> {
 
     private List<UpLoadImage> upLoadImageList;
+    private Context context;
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public SpaceRvAdapter() {
     }
@@ -99,6 +108,15 @@ public class SpaceRvAdapter extends RecyclerView.Adapter<SpaceRvAdapter.SpaceVie
             });
 
         }
+
+        /*holder.spaceImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShowImageDetailsActivity.class);
+                intent.putExtra("spaceImage", (Serializable) BitmapUtils.base64ToBitmap(base64));
+                context.startActivity(intent);
+            }
+        });*/
 
         holder.spaceAttention.setOnClickListener(new View.OnClickListener() {
             @Override

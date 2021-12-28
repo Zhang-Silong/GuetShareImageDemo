@@ -8,7 +8,7 @@ import com.example.guetshareimagedemo.model.api.API;
 public class UrlUtils {
 
     public static String homeLoadMoreImageUrl(String typeId){
-        return "v1/vertical/category/" + typeId + "/vertical?limit=10";
+        return "v1/vertical/category/" + typeId + "/vertical?limit=20";
     }
 
 }
